@@ -24,15 +24,15 @@ jobs:
           node-version: '18'
 
       - name: Install Angular dependencies
-        working-directory: ./frontend/filemanage-frontend
+        working-directory: ./frontend
         run: npm install
 
       - name: Run Angular Lint
-        working-directory: ./frontend/filemanage-frontend
+        working-directory: ./frontend
         run: npm run lint
 
       - name: Run Angular Tests
-        working-directory: ./frontend/filemanage-frontend
+        working-directory: ./frontend
         run: npm run test -- --watch=false --browsers=ChromeHeadless
 
   backend:
@@ -62,11 +62,11 @@ jobs:
           php-version: '8.2'
 
       - name: Install Laravel dependencies
-        working-directory: ./backend/filemanage-backend
+        working-directory: ./backend
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Configure Environment
-        working-directory: ./backend/filemanage-backend
+        working-directory: ./backend
         run: |
           cp .env.example .env
           php artisan key:generate
@@ -79,10 +79,10 @@ jobs:
           DB_PASSWORD: root
 
       - name: Run Laravel Lint (using PHP CodeSniffer)
-        working-directory: ./backend/filemanage-backend
+        working-directory: ./backend
         run: |
           vendor/bin/phpcs --standard=PSR12 app
 
       - name: Run Laravel Tests
-        working-directory: ./backend/filemanage-backend
+        working-directory: ./backend
         run: php artisan test
