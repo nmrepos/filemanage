@@ -72,6 +72,7 @@ jobs:
           port: 22
           source: "backend.zip"
           target: "~"
+          rm: true
 
 
 
