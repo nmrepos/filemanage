@@ -37,7 +37,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          SOURCE_DIR: './frontend/dist/filemanage-frontend' # Adjust the path if necessary
+          SOURCE_DIR: './frontend/dist/filemanage-frontend/browser' # Adjust the path if necessary
 
   deploy_backend:
     name: Deploy Laravel Backend to EC2
