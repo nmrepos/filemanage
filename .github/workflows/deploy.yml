@@ -60,6 +60,16 @@ jobs:
         working-directory: ./backend
         run: zip -r ../backend.zip .
 
+      - name: Copy Deployment Package to EC2
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          source: "backend.zip"
+          target: "~/backend.zip"
+
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.6
         with:
@@ -70,6 +80,7 @@ jobs:
           script: |
             cd /var/www/html/filemanage
             rm -rf *
-            unzip -o ~/backend.zip
+            unzip -o ~/backend.zip -d /var/www/html/filemanage
+            cd /var/www/html/filemanage
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
