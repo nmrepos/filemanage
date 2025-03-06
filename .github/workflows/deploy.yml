@@ -63,16 +63,10 @@ jobs:
           echo "Listing parent directory:"
           ls -la ..
 
-      - name: Copy Deployment Package to EC2
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          source: "backend.zip"
-          target: "~"
-          tar: false
+      - name: Copy Deployment Package to EC2 using native scp
+        run: |
+          scp -o StrictHostKeyChecking=no backend.zip ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~
+
 
 
 
