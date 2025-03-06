@@ -63,7 +63,6 @@ jobs:
           echo "Listing parent directory:"
           ls -la ..
 
-
       - name: Copy Deployment Package to EC2
         uses: appleboy/scp-action@v0.1.3
         with:
@@ -72,8 +71,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           source: "backend.zip"
-          target: "~"          # Copy to home directory
-          tar: false           # Disable tar compression
+          target: "~"
+          tar: false
+
 
 
       - name: List Root Directory
