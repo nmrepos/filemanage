@@ -73,8 +73,6 @@ jobs:
           port: 22
           source: "backend.zip"
           target: "~"          # Copy to home directory
-          overwrite: true      # Overwrite existing files
-          stripComponents: 0   # Do not strip any directory layers
           tar: false           # Disable tar compression
 
 
