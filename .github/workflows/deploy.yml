@@ -52,44 +52,34 @@ jobs:
         with:
           php-version: '8.2'
 
-      - name: Install Laravel Dependencies
-        working-directory: ./backend
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Prepare Deployment Package
+      - name: Install Laravel Dependencies and Create Deployment Package
         working-directory: ./backend
         run: |
-          zip -r ../backend.zip *
-          echo "Listing parent directory:"
+          composer install --prefer-dist --no-progress --no-suggest
+          zip -r ../backend.zip .
+          echo "Listing repository root after zipping:"
           ls -la ..
 
-      - name: Copy Deployment Package to EC2
-        uses: appleboy/scp-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          source: "backend.zip"
-          target: "~"
+      - name: Set up SSH Key for SCP and SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-      - name: List Root Directory
-        run: ls -la ..
-      
+      - name: Copy Deployment Package to EC2 using native scp
+        run: |
+          scp -o StrictHostKeyChecking=no backend.zip ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~
+
       - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             cd /var/www/html/filemanage
             rm -rf *
             unzip -o ~/backend.zip -d /var/www/html/filemanage
             cd /var/www/html/filemanage
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
+          EOF
 
 
 
