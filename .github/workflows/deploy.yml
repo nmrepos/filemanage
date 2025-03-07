@@ -79,6 +79,15 @@ jobs:
             cd /var/www/html/filemanage
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
+            sudo chown apache:apache .env
+            sudo chmod 664 .env
+            sudo chown -R ec2-user:apache /var/www/html/filemanage
+            sudo chmod -R 775 /var/www/html/filemanage/storage /var/www/html/filemanage/bootstrap/cache
+            sudo chmod 664 /var/www/html/filemanage/.env
+            php artisan key:generate --force
+            php artisan config:clear
+            php artisan cache:clear
+            sudo systemctl restart httpd
           EOF
 
 
