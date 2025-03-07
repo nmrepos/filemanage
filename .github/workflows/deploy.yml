@@ -22,6 +22,13 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Generate Production Environment File
+        run: |
+          echo "export const environment = {" > src/environments/environment.prod.ts
+          echo "  production: true," >> src/environments/environment.prod.ts
+          echo "  apiUrl: 'http://${{ secrets.EC2_HOST }}/api'" >> src/environments/environment.prod.ts
+          echo "};" >> src/environments/environment.prod.ts
+
       - name: Install Dependencies & Build Angular App
         working-directory: ./frontend
         run: |
