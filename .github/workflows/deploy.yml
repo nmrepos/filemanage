@@ -57,7 +57,7 @@ jobs:
         run: |
           composer install --prefer-dist --no-progress --no-suggest
           zip -r ../backend.zip .
-          echo "Listing repository root after zipping:"
+          echo "Listing repository root after zipping::"
           ls -la ..
       - name: Set up SSH key for SCP and SSH
         run: |
