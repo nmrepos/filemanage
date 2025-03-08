@@ -3,6 +3,7 @@ import { ApplicationService, Application } from '../services/application.service
 
 @Component({
   selector: 'app-application',
+  standalone: true, 
   template: `
     <h1>Application Name: {{ app?.name }}</h1>
   `,
