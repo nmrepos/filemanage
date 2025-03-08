@@ -2,6 +2,7 @@
 
 Filemanage is a full‑stack file management system that streamlines document storage, access control, and collaboration. It leverages a modern Angular frontend, a robust Laravel backend, and a CI/CD pipeline for automated testing and deployment.
 
+Link : http://filemanage-frontend.s3-website-us-east-1.amazonaws.com/
 ---
 
 ## Table of Contents
