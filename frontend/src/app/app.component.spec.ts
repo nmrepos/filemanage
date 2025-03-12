@@ -1,18 +1,15 @@
-import { TestBed, ComponentFixture  } from '@angular/core/testing';
+import { TestBed  } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 describe('AppComponent', () => {
-  let fixture: ComponentFixture<AppComponent>;
-  let component: AppComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        
         HttpClientTestingModule
       ],
       declarations: [
@@ -20,13 +17,6 @@ describe('AppComponent', () => {
       ],
     }).compileComponents();
   });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
