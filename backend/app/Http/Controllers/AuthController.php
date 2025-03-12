@@ -39,7 +39,7 @@ class AuthController extends Controller
                 [
                 'status'  => 'error',
                 'message' => 'Unauthorized'
-                ], 
+                ],
                 401
             );
         }
@@ -52,7 +52,6 @@ class AuthController extends Controller
             ]
         );
     }
-    
     public function logout(Request $request)
     {
         Auth::logout();
