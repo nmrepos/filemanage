@@ -16,7 +16,6 @@ class AuthController extends Controller
     {
         $this->userRepository = $userRepository;
     }
-    
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -24,7 +23,6 @@ class AuthController extends Controller
         $token = Auth::guard('api')->claims([])->attempt($credentials);
 
         $remoteIP = $request->ip();
-        
         // Log the login attempt in the audit table
         LoginAudit::create(
             [
