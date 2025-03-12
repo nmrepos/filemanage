@@ -1,23 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
+import { HttpClientModule } from '@angular/common/http';  // ✅ Add this
+import { FormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      imports: [HttpClientModule, FormsModule], // ✅ Fix: Add HttpClientModule
+      declarations: [LoginComponent],
+    }).compileComponents();
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });
