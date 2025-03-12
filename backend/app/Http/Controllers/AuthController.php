@@ -26,35 +26,43 @@ class AuthController extends Controller
         $remoteIP = $request->ip();
         
         // Log the login attempt in the audit table
-        LoginAudit::create([
+        LoginAudit::create(
+            [
             'userName'  => $request->input('email'),
             'loginTime' => Carbon::now(),
             'remoteIP'  => $remoteIP,
             'status'    => $token ? 'Success' : 'Error',
             'latitude'  => $request->input('latitude'),
             'longitude' => $request->input('longitude')
-        ]);
+            ]
+        );
         
         if (!$token) {
-            return response()->json([
+            return response()->json(
+                [
                 'status'  => 'error',
                 'message' => 'Unauthorized'
-            ], 401);
+                ], 401
+            );
         }
         
-        return response()->json([
+        return response()->json(
+            [
             'status' => 'success',
             'token'  => $token,
             'user'   => Auth::user()
-        ]);
+            ]
+        );
     }
     
     public function logout(Request $request)
     {
         Auth::logout();
-        return response()->json([
+        return response()->json(
+            [
             'status'  => 'success',
             'message' => 'Logged out successfully'
-        ]);
+            ]
+        );
     }
 }
