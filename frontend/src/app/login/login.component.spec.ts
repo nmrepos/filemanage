@@ -1,6 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
-import { HttpClientModule } from '@angular/common/http';  // ✅ Add this
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
