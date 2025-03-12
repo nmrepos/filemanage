@@ -27,11 +27,8 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          echo "export const environment = {" > src/environments/environment.prod.ts
-          echo "  production: true," >> src/environments/environment.prod.ts
-          echo "  apiUrl: 'http://${{ secrets.EC2_HOST }}/api'" >> src/environments/environment.prod.ts
-          echo "};" >> src/environments/environment.prod.ts
-          npm run build --prod
+          sed -i 's|\$API_URL|'"${{ secrets.API_URL }}"'|g' src/environments/environment.prod.ts
+          npm run build -- --configuration production
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1

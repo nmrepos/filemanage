@@ -7,4 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/api/application', [ApplicationController::class, 'index']);
