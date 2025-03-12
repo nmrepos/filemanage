@@ -33,16 +33,17 @@ class AuthController extends Controller
             'longitude' => $request->input('longitude')
             ]
         );
-        
+
         if (!$token) {
             return response()->json(
                 [
                 'status'  => 'error',
                 'message' => 'Unauthorized'
-                ], 401
+                ], 
+                401
             );
         }
-        
+
         return response()->json(
             [
             'status' => 'success',
