@@ -30,6 +30,10 @@ jobs:
           sed -i 's|\$API_URL|'"${{ secrets.API_URL }}"'|g' src/environments/environment.ts
           npm run build
 
+      - name: List Angular Build Output Directory
+        working-directory: ./frontend
+        run: ls -la ../backend/public/assets/angular/browser
+
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
