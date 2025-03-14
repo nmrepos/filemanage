@@ -86,7 +86,7 @@
               "outputPath": {
                 "base": "../backend/public/assets/angular/browser"
               },
-              "baseHref": "/assets/angular/browser/"
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,
