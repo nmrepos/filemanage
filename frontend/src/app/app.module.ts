@@ -14,8 +14,9 @@ import {
 import { environment } from '@environments/environment';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.apiUrl}api/i18n/`);
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
+
 
 @NgModule({
   declarations: [AppComponent],
