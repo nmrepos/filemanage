@@ -84,7 +84,7 @@
               "namedChunks": false,
               "extractLicenses": true,
               "outputPath": {
-                "base": "../backend/public/assets/angular"
+                "base": "../backend/public/assets/angular/browser"
               },
               "baseHref": "/assets/angular/browser/"
             },
