@@ -28,6 +28,7 @@ jobs:
         run: |
           npm install
           sed -i 's|\$API_URL|'"${{ secrets.API_URL }}"'|g' src/environments/environment.ts
+          cat src/environments/environment.ts
           npm run build
 
       - name: List Angular Build Output Directory
