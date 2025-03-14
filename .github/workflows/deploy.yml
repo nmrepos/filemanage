@@ -35,7 +35,9 @@ jobs:
         run: |
           ls
           pwd
+          sudo chmod -R 777 ../backend/public/assets/angular/browser/browser/
           ls -la ../backend/public/assets/angular/browser/browser/
+
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
