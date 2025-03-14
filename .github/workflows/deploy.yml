@@ -27,7 +27,7 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          sudo sed -i "s/'\$API_URL'/'${{ secrets.EC2_HOST }}'/g" src/environments/environment.ts
+          sudo sed -i 's|\$API_URL|'"${{ secrets.EC2_HOST }}"'|g' src/environments/environment.ts
           cat src/environments/environment.ts
           npm run build
 
