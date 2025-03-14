@@ -90,7 +90,6 @@ jobs:
             unzip -o ~/backend.zip -d /var/www/html/filemanage
             cd /var/www/html/filemanage
             composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
 
 
             cat > .env <<'EOL'
