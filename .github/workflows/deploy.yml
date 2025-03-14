@@ -32,7 +32,10 @@ jobs:
 
       - name: List Angular Build Output Directory
         working-directory: ./frontend
-        run: ls -la ../backend/public/assets/angular/browser
+        run: |
+          ls
+          pwd
+          ls -la ../backend/public/assets/angular/browser
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
