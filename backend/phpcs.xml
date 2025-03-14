@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="Custom PHPCS Rules">
+    <description>Custom rules for PHPCS</description>
+
+    <!-- Ignore Line Length Errors -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="500"/>
+            <property name="absoluteLineLimit" value="500"/>
+        </properties>
+    </rule>
+
+</ruleset>

@@ -2,8 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-// You can extend a BaseRepositoryInterface if needed
-interface UserRepositoryInterface
+use App\Repositories\Contracts\BaseRepositoryInterface;
+
+interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     public function createUser(array $attributes);
     public function findUser($id);
