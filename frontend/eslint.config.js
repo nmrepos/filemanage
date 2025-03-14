@@ -15,7 +15,12 @@ module.exports = tseslint.config(
     processor: angular.processInlineTemplates,
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
-      "@angular-eslint/prefer-standalone": "off",
+      '@typescript-eslint/no-inferrable-types': 'off',
+      '@typescript-eslint/array-type': 'off',
+      '@typescript-eslint/ban-types': 'off',
+      '@typescript-eslint/prefer-for-of' : 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
+      '@typescript-eslint/consistent-type-assertions': 'off',
       "@angular-eslint/directive-selector": [
         "error",
         {
