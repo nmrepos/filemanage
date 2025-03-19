@@ -82,7 +82,7 @@ jobs:
       - name: Run Laravel Lint (using PHP CodeSniffer)
         working-directory: ./backend
         run: |
-          vendor/bin/phpcs --standard=PSR12 app
+          vendor/bin/phpcs --standard=phpcs.xml app
 
       - name: Run Laravel Tests
         working-directory: ./backend
