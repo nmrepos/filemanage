@@ -1,47 +1,122 @@
-// import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-// import { LoginComponent } from './login.component';
-// import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-// import { Router } from '@angular/router';
-// import { SecurityService } from '@core/security/security.service';
-// import { ToastrService } from 'ngx-toastr';
-// import { TranslationService } from '@core/services/translation.service';
-// import { MatDialog } from '@angular/material/dialog';
-// import { of, throwError } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { LoginComponent } from './login.component';
+import { ToastrModule } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
+import { Router, Event as RouterEvent } from '@angular/router';
+import { Subject } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-// describe('LoginComponent', () => {
-//   let component: LoginComponent;
-//   let fixture: ComponentFixture<LoginComponent>;
 
-//   beforeEach(async () => {
-//     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-//     const securityServiceSpy = jasmine.createSpyObj('SecurityService', ['login', 'hasClaim'], {
-//       companyProfile: of({ logoUrl: 'logo.png', bannerUrl: 'banner.png' })
-//     });
-//     const toastrSpy = jasmine.createSpyObj('ToastrService', ['success', 'error']);
-//     const translationServiceStub = { lanDir$: of('ltr') };
-//     const renderer2Stub = { addClass: jasmine.createSpy('addClass'), removeClass: jasmine.createSpy('removeClass') };
-//     const documentStub = { body: { classList: { add: jasmine.createSpy('add'), remove: jasmine.createSpy('remove') } } };
-//     const matDialogSpy = jasmine.createSpyObj('MatDialog', ['closeAll']);
 
-//     await TestBed.configureTestingModule({
-//       imports: [ReactiveFormsModule],
-//       declarations: [LoginComponent],
-//       providers: [
-//         UntypedFormBuilder,
-//         { provide: Router, useValue: routerSpy },
-//         { provide: SecurityService, useValue: securityServiceSpy },
-//         { provide: ToastrService, useValue: toastrSpy },
-//         { provide: TranslationService, useValue: translationServiceStub },
+  
 
-//         { provide: MatDialog, useValue: matDialogSpy }
-//       ]
-//     }).compileComponents();
+  
+  class FakeTranslationService {
+    lanDir$ = of('ltr');
+    get(key: string | string[]): any {
+      // Simply return the key as a string inside an Observable.
+      return of(key);
+    }
+    instant(key: string | string[]): any {
+      return key;
+    }
+    onLangChange = of({ lang: 'en', translations: {} });
+    onTranslationChange = of({ translations: {} });
+    onDefaultLangChange = of({ lang: 'en' });
+  }
+  
 
-//     fixture = TestBed.createComponent(LoginComponent);
-//     component = fixture.componentInstance;
-//     // Provide a dummy sub$ to avoid errors (BaseComponent dependency)
-//     (component as any).sub$ = { sink: { add: () => {} } };
-//     fixture.detectChanges();
-//   });
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let routerEvents$: Subject<RouterEvent>;
+  let routerSpy: Partial<Router>;
+  let titleServiceSpy: Partial<Title>;
 
-// });
+    beforeEach(async () => {
+        // Create a subject to simulate router events.
+        routerEvents$ = new Subject<RouterEvent>();
+
+        // Create mock implementations
+        routerSpy = {
+            events: routerEvents$.asObservable(),
+            navigate: jasmine.createSpy('navigate')
+        };
+
+        titleServiceSpy = {
+            setTitle: jasmine.createSpy('setTitle')
+        };
+
+        await TestBed.configureTestingModule({
+            declarations: [LoginComponent],
+            providers: [
+            provideHttpClient(),
+            provideHttpClientTesting(), 
+            { provide: Router, useValue: routerSpy },
+            { provide: TranslateService, useClass: FakeTranslationService },
+            { provide: Title, useValue: titleServiceSpy }
+            ],
+            imports: [
+                ToastrModule.forRoot({
+                    positionClass: 'toast-bottom-right'
+                  }),
+                  TranslateModule.forRoot()
+            ],
+            schemas: [NO_ERRORS_SCHEMA]
+
+        }).compileComponents();
+    });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should create the login form on init', () => {
+    component.ngOnInit();
+    expect(component.loginFormGroup).toBeDefined();
+    expect(component.loginFormGroup.controls['userName']).toBeDefined();
+    expect(component.loginFormGroup.controls['password']).toBeDefined();
+  });
+
+  it('should validate email input correctly', () => {
+    // Ensure ngOnInit has been called to initialize the form.
+    component.ngOnInit();
+    fixture.detectChanges();
+  
+    const emailControl = component.loginFormGroup.get('userName');
+    
+    // Check required error.
+    emailControl.setValue('');
+    emailControl.markAsTouched();
+    fixture.detectChanges();
+    let errorEl = fixture.nativeElement.querySelector('.text-danger');
+    expect(errorEl.textContent).toContain('EMAIL_IS_REQUIRED');
+  
+    // Check email format error.
+    emailControl.setValue('invalid-email');
+    emailControl.markAsTouched();
+    fixture.detectChanges();
+    errorEl = fixture.nativeElement.querySelector('.text-danger');
+    expect(errorEl.textContent).toContain('PLEASE_ENTER_VALID_EMAIL');
+  
+    // Check valid email input; error element should not be present.
+    emailControl.setValue('test@example.com');
+    emailControl.markAsUntouched();
+    fixture.detectChanges();
+    errorEl = fixture.nativeElement.querySelector('.text-danger');
+    expect(errorEl).toBeNull();
+  });
+
+
+  
+});

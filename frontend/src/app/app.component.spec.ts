@@ -60,7 +60,7 @@ describe('AppComponent', () => {
   });
 
   it('should update currentUrl on NavigationStart event', () => {
-    const testUrl = '/some/path';
+    const testUrl = 'login';
     // Simulate a NavigationStart event.
     routerEvents$.next(new NavigationStart(1, testUrl));
     expect(component.currentUrl).toEqual(testUrl.substring(testUrl.lastIndexOf('/') + 1));

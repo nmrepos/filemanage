@@ -18,7 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
     LoginRoutingModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     MatButtonModule
   ]
 })
