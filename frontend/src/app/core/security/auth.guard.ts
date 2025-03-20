@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { SecurityService } from './security.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard  {
+export class AuthGuard{
   constructor(
     private securityService: SecurityService,
     private router: Router,
@@ -14,7 +14,6 @@ export class AuthGuard  {
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.securityService.isUserAuthenticate()) {
@@ -55,7 +54,6 @@ export class AuthGuard  {
       return false;
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canLoad(route: Route): boolean {
     if (this.securityService.isUserAuthenticate()) {
       return true;

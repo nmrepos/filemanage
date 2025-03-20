@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '$API_URL',
+  apiUrl: '/',
   tokenExpiredTimeInMin: 50,
   allowExtesions: [
     {

@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration=production",
+    "build": "ng build --configuration=production && cp ../../../public/assets/angular/browser/index.html ../../views/angular.blade.php",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "npx eslint -c ./.eslintrc.cjs ."
   },
   "private": true,
   "dependencies": {

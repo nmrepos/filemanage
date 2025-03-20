@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { SubSink } from 'subsink';
+import { SubSink } from 'SubSink';
 
 @Component({
     selector: 'app-base',
