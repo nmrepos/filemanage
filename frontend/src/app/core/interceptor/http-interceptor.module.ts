@@ -45,7 +45,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       });
       return next.handle(newReq).pipe(
         tap(
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           () => {},
           (err: any) => {
             if (err instanceof HttpErrorResponse) {
@@ -83,7 +82,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       });
       return next.handle(newReq).pipe(
         tap(
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
           () => {},
           (err: any) => {
             if (err instanceof HttpErrorResponse) {

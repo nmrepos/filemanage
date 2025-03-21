@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatButtonModule} from '@angular/material/button';
 
-
 @NgModule({
   declarations: [
     LoginComponent
@@ -18,7 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
     LoginRoutingModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     MatButtonModule
   ]
 })

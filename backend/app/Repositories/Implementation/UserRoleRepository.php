@@ -6,6 +6,7 @@ use App\Models\UserRoles;
 use App\Repositories\Implementation\BaseRepository;
 use App\Repositories\Contracts\UserRoleRepositoryInterface;
 
+
 //use Your Model
 
 /**
@@ -27,4 +28,5 @@ class UserRoleRepository extends BaseRepository implements UserRoleRepositoryInt
     {
         return UserRoles::class;
     }
+
 }

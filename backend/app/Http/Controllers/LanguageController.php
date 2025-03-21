@@ -10,6 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 class LanguageController extends Controller
 {
+
     public function __construct()
     {
     }
@@ -52,8 +53,7 @@ class LanguageController extends Controller
 
     public function getFileContentById($id)
     {
-        $language = Languages::findOrFail($id);
-        ;
+        $language = Languages::findOrFail($id);;
         $code = $language->code;
         $fileName =  $code . '.json';
         if (Storage::disk('i18n')->exists($fileName)) {
@@ -65,7 +65,7 @@ class LanguageController extends Controller
         }
     }
 
-    public function saveLanguage(Request $request)
+    function saveLanguage(Request $request)
     {
         $id = $request['id'];
         $validator = Validator::make($request->all(), [
@@ -110,8 +110,7 @@ class LanguageController extends Controller
     public function deleteLanguage($id)
     {
         $language = Languages::findOrFail($id);
-        $language->delete();
-        ;
+        $language->delete();;
         return response()->json([], 200);
     }
 
@@ -131,7 +130,7 @@ class LanguageController extends Controller
 
             $imageName = Uuid::uuid4() . '.' . $extension ?? 'png';
 
-            file_put_contents($destinationPath . $imageName, base64_decode($image));
+            file_put_contents($destinationPath . $imageName,  base64_decode($image));
             return 'images/flags/' . $imageName;
         } catch (\Exception $e) {
             return '';

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+
+
 interface NotificationScheduleInterface
 {
     public function dailyReminder();
@@ -13,4 +15,5 @@ interface NotificationScheduleInterface
     public function customDateReminderSchedule();
     public function reminderSchedule();
     public function sendEmailSuppliersSchedule();
+
 }

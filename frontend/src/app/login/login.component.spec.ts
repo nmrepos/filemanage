@@ -10,12 +10,6 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-
-
-
-  
-
-  
   class FakeTranslationService {
     lanDir$ = of('ltr');
     get(key: string | string[]): any {
@@ -29,7 +23,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
     onTranslationChange = of({ translations: {} });
     onDefaultLangChange = of({ lang: 'en' });
   }
-  
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -56,10 +49,10 @@ describe('LoginComponent', () => {
             declarations: [LoginComponent],
             providers: [
             provideHttpClient(),
-            provideHttpClientTesting(), 
-            { provide: Router, useValue: routerSpy },
-            { provide: TranslateService, useClass: FakeTranslationService },
-            { provide: Title, useValue: titleServiceSpy }
+            provideHttpClientTesting(),
+            { provide: Router,useValue: routerSpy },
+            { provide: TranslateService,useClass: FakeTranslationService },
+            { provide: Title,useValue: titleServiceSpy }
             ],
             imports: [
                 ToastrModule.forRoot({
@@ -92,23 +85,20 @@ describe('LoginComponent', () => {
     // Ensure ngOnInit has been called to initialize the form.
     component.ngOnInit();
     fixture.detectChanges();
-  
     const emailControl = component.loginFormGroup.get('userName');
-    
     // Check required error.
     emailControl.setValue('');
     emailControl.markAsTouched();
     fixture.detectChanges();
     let errorEl = fixture.nativeElement.querySelector('.text-danger');
     expect(errorEl.textContent).toContain('EMAIL_IS_REQUIRED');
-  
+
     // Check email format error.
     emailControl.setValue('invalid-email');
     emailControl.markAsTouched();
     fixture.detectChanges();
     errorEl = fixture.nativeElement.querySelector('.text-danger');
     expect(errorEl.textContent).toContain('PLEASE_ENTER_VALID_EMAIL');
-  
     // Check valid email input; error element should not be present.
     emailControl.setValue('test@example.com');
     emailControl.markAsUntouched();
@@ -116,7 +106,4 @@ describe('LoginComponent', () => {
     errorEl = fixture.nativeElement.querySelector('.text-danger');
     expect(errorEl).toBeNull();
   });
-
-
-  
 });

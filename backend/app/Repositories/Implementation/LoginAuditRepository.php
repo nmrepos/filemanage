@@ -6,6 +6,7 @@ use App\Models\LoginAudit;
 use App\Repositories\Implementation\BaseRepository;
 use App\Repositories\Contracts\LoginAuditRepositoryInterface;
 
+
 //use Your Model
 
 /**
@@ -38,11 +39,11 @@ class LoginAuditRepository extends BaseRepository implements LoginAuditRepositor
 
         if ($orderBy == 'userName') {
             $query = $query->orderBy('userName', $direction);
-        } elseif ($orderBy == 'loginTime') {
+        } else if ($orderBy == 'loginTime') {
             $query = $query->orderBy('loginTime', $direction);
-        } elseif ($orderBy == 'remoteIP') {
+        } else if ($orderBy == 'remoteIP') {
             $query = $query->orderBy('remoteIP', $direction);
-        } elseif ($orderBy == 'status') {
+        } else if ($orderBy == 'status') {
             $query = $query->orderBy('status', $direction);
         }
 
@@ -66,4 +67,5 @@ class LoginAuditRepository extends BaseRepository implements LoginAuditRepositor
         $count = $query->count();
         return $count;
     }
+
 }

@@ -184,7 +184,6 @@ export class SecurityService {
   // *hasClaim="'claimType'"  // Assumes claimValue is true
   // *hasClaim="'claimType:value'"  // Compares claimValue to value
   // *hasClaim="['claimType1','claimType2:value','claimType3']"
-  
   hasClaim(claimType: string | string[]): boolean {
     let ret = false;
     // See if an array of values was passed in.
