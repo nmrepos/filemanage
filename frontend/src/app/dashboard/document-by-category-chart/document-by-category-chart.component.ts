@@ -12,7 +12,7 @@ export class DocumentByCategoryChartComponent implements OnInit {
   constructor(private dashboardService: DashboradService) { }
 
   ngOnInit(): void {
-    // this.getDocumentCategoryChartData(); edited
+    this.getDocumentCategoryChartData(); //necnid
   }
 
   getDocumentCategoryChartData() {

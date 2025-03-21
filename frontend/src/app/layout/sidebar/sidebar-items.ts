@@ -10,5 +10,14 @@ export const ROUTES: RouteInfo[] = [
     claims: ['DASHBOARD_VIEW_DASHBOARD'],
     submenu: [],
   },
+  {
+    path: 'roles',
+    title: 'ROLES',
+    icon: 'users',
+    class: '',
+    groupTitle: false,
+    claims: ['ROLE_VIEW_ROLES'],
+    submenu: [],
+  },
 
 ];

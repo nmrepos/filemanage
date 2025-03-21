@@ -16,6 +16,7 @@ use App\Repositories\Implementation\BaseRepository;
 use App\Repositories\Contracts\EmailRepositoryInterface;
 use Illuminate\Support\Facades\Storage;
 
+
 //use Your Model
 
 /**
@@ -70,7 +71,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
 
         foreach ($reminders as $r) {
             foreach ($r['reminderUsers'] as $users) {
-                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                 $model = ReminderSchedulers::create([
                     'duration' => $duration,
                     'isActive' => 1,
@@ -108,7 +109,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         $reminders = $reminderQuery->get();
         foreach ($reminders as $r) {
             foreach ($r['reminderUsers'] as $users) {
-                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                 $model = ReminderSchedulers::create([
                     'duration' => $duration,
                     'isActive' => 1,
@@ -146,16 +147,15 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         if ($lastDayOfMonth == 28) {
             $reminderQuery = $reminderQuery
                 ->whereDay('reminders.startDate', '>=', 28);
-        } elseif ($lastDayOfMonth == 29) {
+        } else if ($lastDayOfMonth == 29) {
             $reminderQuery = $reminderQuery
                 ->whereDay('reminders.startDate', '>=', 29);
-        } elseif ($lastDayOfMonth == 30) {
+        } else if ($lastDayOfMonth == 30) {
             $reminderQuery = $reminderQuery
                 ->whereDay('reminders.startDate', '>=', 30);
         } else {
             $reminderQuery = $reminderQuery
-                ->whereDay('reminders.startDate', '=', $currentDate->format("d"));
-            ;
+                ->whereDay('reminders.startDate', '=', $currentDate->format("d"));;
         }
 
         $reminders = $reminderQuery->get();
@@ -163,7 +163,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         if ($reminders != null && $reminders->count() > 0) {
             foreach ($reminders as $r) {
                 foreach ($r['reminderUsers'] as $users) {
-                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                     $model = ReminderSchedulers::create([
                         'duration' => $duration,
                         'isActive' => 1,
@@ -190,8 +190,8 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
             ->join('quarterlyReminders', 'reminders.id', '=', 'quarterlyReminders.reminderId')
             ->where('reminders.frequency', '=', FrequencyEnum::Quarterly->value)
             ->whereDate('reminders.startDate', '<=', $currentDate)
-            ->where('quarterlyReminders.day', '=', $currentDate->format("d"))
-            ->where('quarterlyReminders.month', '=', $currentDate->format("m"))
+            ->where('quarterlyReminders.day', '=',  $currentDate->format("d"))
+            ->where('quarterlyReminders.month', '=',  $currentDate->format("m"))
             ->where(function ($query) use ($currentDate) {
                 $query = $query->where('reminders.endDate', '')->orWhereNull('reminders.endDate')
                     ->orWhere(function ($query) use ($currentDate) {
@@ -202,7 +202,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         $reminders = $reminderQuery->get();
         foreach ($reminders as $r) {
             foreach ($r['reminderUsers'] as $users) {
-                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                 $model = ReminderSchedulers::create([
                     'duration' => $duration,
                     'isActive' => 1,
@@ -228,8 +228,8 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
             ->join('halfYearlyReminders', 'reminders.id', '=', 'halfYearlyReminders.reminderId')
             ->where('reminders.frequency', '=', FrequencyEnum::HalfYearly->value)
             ->whereDate('reminders.startDate', '<=', $currentDate)
-            ->where('halfYearlyReminders.day', '=', $currentDate->format("d"))
-            ->where('halfYearlyReminders.month', '=', $currentDate->format("m"))
+            ->where('halfYearlyReminders.day', '=',  $currentDate->format("d"))
+            ->where('halfYearlyReminders.month', '=',  $currentDate->format("m"))
             ->where(function ($query) use ($currentDate) {
                 $query = $query->where('reminders.endDate', '')->orWhereNull('reminders.endDate')
                     ->orWhere(function ($query) use ($currentDate) {
@@ -240,7 +240,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         $reminders = $reminderQuery->get();
         foreach ($reminders as $r) {
             foreach ($r['reminderUsers'] as $users) {
-                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                 $model = ReminderSchedulers::create([
                     'duration' => $duration,
                     'isActive' => 1,
@@ -266,7 +266,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
             ->where('reminders.frequency', '=', FrequencyEnum::Yearly->value)
             ->whereDate('reminders.startDate', '<=', $currentDate)
             ->whereDay('reminders.startDate', '=', $currentDate->format("d"))
-            ->whereMonth('reminders.startDate', '=', $currentDate->format("m"))
+            ->whereMonth('reminders.startDate', '=',  $currentDate->format("m"))
             ->where(function ($query) use ($currentDate) {
                 $query = $query->where('reminders.endDate', '')->orWhereNull('reminders.endDate')
                     ->orWhere(function ($query) use ($currentDate) {
@@ -278,7 +278,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         if ($reminders != null && $reminders->count() > 0) {
             foreach ($reminders as $r) {
                 foreach ($r['reminderUsers'] as $users) {
-                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                     $model = ReminderSchedulers::create([
                         'duration' => $duration,
                         'isActive' => 1,
@@ -315,7 +315,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
         if ($reminders != null && $reminders->count() > 0) {
             foreach ($reminders as $r) {
                 foreach ($r['reminderUsers'] as $users) {
-                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"), $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
+                    $duration = Carbon::create($currentDate->format("Y"), $currentDate->format("m"), $currentDate->format("d"),  $r['startDate']->format("h"), $r['startDate']->format("i"), $r['startDate']->format("s"));
                     $model = ReminderSchedulers::create([
                         'duration' => $duration,
                         'isActive' => 1,
@@ -366,7 +366,9 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
             ->get();
 
         if ($reminderSchedulers->count() > 0) {
+
             foreach ($reminderSchedulers as $reminderScheduler) {
+
                 $model = UserNotifications::create([
                     'userId' => $reminderScheduler['userId'],
                     'isRead' => 0,
@@ -382,6 +384,7 @@ class NotificationScheduleRepository extends BaseRepository implements Notificat
                 $user = Users::where('id', $reminderScheduler['userId'])->first();
 
                 if ($reminderScheduler->isEmailNotification) {
+
                     $sendEmailObject = clone  $reminderScheduler;
 
                     if ($reminderScheduler['documentId'] != null) {

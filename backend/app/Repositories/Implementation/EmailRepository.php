@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Class ActionsRepository.
  */
-class EmailRepository implements EmailRepositoryInterface
+class EmailRepository  implements EmailRepositoryInterface
 {
+
     public function sendEmail($attribute)
     {
         $smtpSettings = EmailSMTPSettings::where('isDefault', 1)->first();

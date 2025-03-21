@@ -13,11 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Languages extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    use Notifiable;
-    use Uuids;
-
+    use HasFactory, SoftDeletes;
+    use Notifiable, Uuids;
     protected $primaryKey = "id";
     public $table = 'languages';
     const CREATED_AT = 'createdDate';

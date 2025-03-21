@@ -11,7 +11,7 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function updateUser($model, $id, $userRoles);
     public function updateUserProfile($request);
     public function getUsersForDropdown();
-    public function forgotPassword($request);
-    public function getUserInfoForResetPassword($id);
-    public function resetPassword($request);
+    public function  forgotPassword($request);
+    public function  getUserInfoForResetPassword($id);
+    public function  resetPassword($request);
 }

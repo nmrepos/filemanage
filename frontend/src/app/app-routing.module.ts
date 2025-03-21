@@ -32,18 +32,12 @@ const routes: Routes = [
                 (m) => m.DashboardModule
               ),
           },
-          // {
-          //   path: 'pages',
-          //   canLoad: [AuthGuard],
-          //   loadChildren: () =>
-          //     import('./page/page.module').then((m) => m.PageModule),
-          // },
-          // {
-          //   path: 'roles',
-          //   canLoad: [AuthGuard],
-          //   loadChildren: () =>
-          //     import('./role/role.module').then((m) => m.RoleModule),
-          // },
+          {
+            path: 'roles',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./role/role.module').then((m) => m.RoleModule),
+          },
           {
             path: 'users',
             canLoad: [AuthGuard],

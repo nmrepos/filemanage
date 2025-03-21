@@ -11,9 +11,7 @@ use App\Traits\Uuids;
 class LoginAudit extends Model
 {
     use HasFactory;
-    use Notifiable;
-    use Uuids;
-
+    use Notifiable, Uuids;
     protected $primaryKey = "id";
     public $timestamps = false;
     public $table = 'loginAudits';

@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.setTopLogAndName();
-    // this.getNotification(); //edited
+    this.getNotification(); //necnid
     this.setDefaultLanguage();
     this.companyProfileSubscription();
     this.getLangDir();

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Implementation;
 
+
 use App\Repositories\Contracts\ConnectionMappingRepositoryInterface;
 
 //use Your Model
@@ -38,4 +39,5 @@ class ConnectionMappingRepository implements ConnectionMappingRepositoryInterfac
     {
         return $this->emailSchedulerStatus = $status;
     }
+
 }

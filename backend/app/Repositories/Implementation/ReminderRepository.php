@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReminderRepository extends BaseRepository implements ReminderRepositoryInterface
 {
+
     /**
      * @var Model
      */
@@ -43,18 +44,18 @@ class ReminderRepository extends BaseRepository implements ReminderRepositoryInt
 
         if ($orderBy == 'subject') {
             $query = $query->orderBy('subject', $direction);
-        } elseif ($orderBy == 'message') {
+        } else if ($orderBy == 'message') {
             $query = $query->orderBy('message', $direction);
-        } elseif ($orderBy == 'startDate') {
+        } else if ($orderBy == 'startDate') {
             $query = $query->orderBy('startDate', $direction);
-        } elseif ($orderBy == 'endDate') {
+        } else if ($orderBy == 'endDate') {
             $query = $query->orderBy('endDate', $direction);
-        } elseif ($orderBy == 'documentName') {
+        } else if ($orderBy == 'documentName') {
             $query = $query->orderBy('documents.name', $direction);
         }
 
         if ($attributes->subject) {
-            $query = $query->where('subject', 'like', '%' . $attributes->subject . '%');
+            $query = $query->where('subject',  'like', '%' . $attributes->subject . '%');
         }
 
         if ($attributes->message) {
@@ -75,14 +76,14 @@ class ReminderRepository extends BaseRepository implements ReminderRepositoryInt
 
 
         if ($attributes->subject) {
-            $query = $query->where('subject', 'like', '%' . $attributes->subject . '%');
+            $query = $query->where('subject',  'like', '%' . $attributes->subject . '%');
         }
 
         if ($attributes->message) {
             $query = $query->where('message', 'like', '%' . $attributes->message . '%');
         }
         if ($attributes->frequency != '') {
-            $query = $query->where('frequency', $attributes->frequency);
+            $query = $query->where('frequency',  $attributes->frequency);
         }
 
         $count = $query->count();
@@ -211,7 +212,7 @@ class ReminderRepository extends BaseRepository implements ReminderRepositoryInt
         return $this->parseResult($model);
     }
 
-    public function getReminderForLoginUser($attributes)
+    public function  getReminderForLoginUser($attributes)
     {
         $userId = Auth::parseToken()->getPayload()->get('userId');
         $query = Reminders::select([
@@ -236,18 +237,18 @@ class ReminderRepository extends BaseRepository implements ReminderRepositoryInt
 
         if ($orderBy == 'subject') {
             $query = $query->orderBy('subject', $direction);
-        } elseif ($orderBy == 'message') {
+        } else if ($orderBy == 'message') {
             $query = $query->orderBy('message', $direction);
-        } elseif ($orderBy == 'startDate') {
+        } else if ($orderBy == 'startDate') {
             $query = $query->orderBy('startDate', $direction);
-        } elseif ($orderBy == 'endDate') {
+        } else if ($orderBy == 'endDate') {
             $query = $query->orderBy('endDate', $direction);
-        } elseif ($orderBy == 'documentName') {
+        } else if ($orderBy == 'documentName') {
             $query = $query->orderBy('documents.name', $direction);
         }
 
         if ($attributes->subject) {
-            $query = $query->where('subject', 'like', '%' . $attributes->subject . '%');
+            $query = $query->where('subject',  'like', '%' . $attributes->subject . '%');
         }
 
         if ($attributes->message) {
@@ -278,14 +279,14 @@ class ReminderRepository extends BaseRepository implements ReminderRepositoryInt
             });
 
         if ($attributes->subject) {
-            $query = $query->where('subject', 'like', '%' . $attributes->subject . '%');
+            $query = $query->where('subject',  'like', '%' . $attributes->subject . '%');
         }
 
         if ($attributes->message) {
             $query = $query->where('message', 'like', '%' . $attributes->message . '%');
         }
         if ($attributes->frequency != '') {
-            $query = $query->where('frequency', $attributes->frequency);
+            $query = $query->where('frequency',  $attributes->frequency);
         }
 
         $count = $query->count();

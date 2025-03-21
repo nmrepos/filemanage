@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+
+
 interface BaseRepositoryInterface
 {
  /**
@@ -324,7 +326,7 @@ interface BaseRepositoryInterface
      *
      * @return array
      */
-    public function getFieldsSearchable(): array;
+    public function getFieldsSearchable() : array;
 
     /**
      * Retrieve first data of repository, or return new Entity

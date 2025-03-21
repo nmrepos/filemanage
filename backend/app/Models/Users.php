@@ -15,9 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 class Users extends Authenticatable implements JWTSubject
 {
     use HasFactory;
-    use Notifiable;
-    use Uuids;
-
+    use Notifiable, Uuids;
     protected $primaryKey = "id";
     public $timestamps = false;
 
@@ -53,7 +51,7 @@ class Users extends Authenticatable implements JWTSubject
 
     public function userNotifications()
     {
-        return $this->hasMany(UserNotifications::class, 'userId', 'id');
+        return $this->hasMany(UserNotifications::class,'userId', 'id');
     }
 
     public function getJWTCustomClaims()

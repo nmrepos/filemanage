@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Config;
 
 class InstallController extends Controller
 {
-    use FinishesInstallation;
-
     private $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -30,6 +28,7 @@ class InstallController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    use FinishesInstallation;
     /**
      * Shows the requirements page
      */

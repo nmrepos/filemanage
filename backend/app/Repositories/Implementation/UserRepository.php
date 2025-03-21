@@ -161,7 +161,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         try {
             $body = Storage::disk('public')->get('reset-password-template.html');
-
+            
             // $body = file_get_contents($filePath);
             $link = $request->getSchemeAndHttpHost() . "/reset-password/" . $appuser->resetPasswordCode;
             $body = str_replace("##RESET_LINK##", $link, $body);

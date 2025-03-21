@@ -25,12 +25,12 @@ export class CalenderViewComponent implements OnInit {
 
   ngOnInit(): void {
     const currentDate = new Date();
-    // this.gerReminders(currentDate.getMonth() + 1, currentDate.getFullYear()); //necnid
+    this.gerReminders(currentDate.getMonth() + 1, currentDate.getFullYear()); //necnid
   }
 
   viewDateChange(event: Date) {
     this.activeDayIsOpen = false;
-    // this.gerReminders(event.getMonth() + 1, event.getFullYear()); //necnid
+    this.gerReminders(event.getMonth() + 1, event.getFullYear()); //necnid
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
