@@ -19,5 +19,15 @@ export const ROUTES: RouteInfo[] = [
     claims: ['ROLE_VIEW_ROLES'],
     submenu: [],
   },
+  {
+    path: 'login-audit',
+    title: 'LOGIN_AUDITS',
+    icon: 'log-in',
+    class: '',
+    groupTitle: false,
+    claims: ['LOGIN_AUDIT_VIEW_LOGIN_AUDIT_LOGS'],
+    submenu: [],
+  },
+
 
 ];
