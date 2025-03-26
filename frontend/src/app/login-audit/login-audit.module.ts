@@ -14,16 +14,7 @@ import { SharedModule } from '@shared/shared.module';
 @NgModule({
   declarations: [LoginAuditListComponent],
   imports: [
-    CommonModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    LoginAuditRoutingModule,
-    TranslateModule,
-    PipesModule,
-    SharedModule,
+
   ],
 })
 export class LoginAuditModule {}
