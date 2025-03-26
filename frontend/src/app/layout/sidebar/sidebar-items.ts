@@ -28,6 +28,4 @@ export const ROUTES: RouteInfo[] = [
     claims: ['LOGIN_AUDIT_VIEW_LOGIN_AUDIT_LOGS'],
     submenu: [],
   },
-
-
 ];
