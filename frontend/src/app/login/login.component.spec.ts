@@ -34,8 +34,6 @@ describe('LoginComponent', () => {
     beforeEach(async () => {
         // Create a subject to simulate router events.
         routerEvents$ = new Subject<RouterEvent>();
-
-        // Create mock implementations
         routerSpy = {
             events: routerEvents$.asObservable(),
             navigate: jasmine.createSpy('navigate')

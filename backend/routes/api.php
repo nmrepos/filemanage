@@ -12,7 +12,7 @@ use App\Http\Controllers\RoleUsersController;
 use App\Http\Controllers\ActionsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\DocumentController;
-
+use App\Http\Controllers\LoginAuditController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
