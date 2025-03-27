@@ -72,10 +72,10 @@ Filemanage is designed to help users and administrators efficiently manage a hig
 
 ## Features
 
-### User Registration & Authentication
+### User Login & Authentication
 
 - **User Registration**:
-  - Registration page includes fields for username, email, and password.
+  - Login page includes fields for username, email, and password.
   - Input validations ensure proper email format and password strength.
   - Confirmation emails are sent to verify new accounts.
   - Account activation occurs only after email verification.
