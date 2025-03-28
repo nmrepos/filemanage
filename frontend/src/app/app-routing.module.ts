@@ -84,13 +84,13 @@ const routes: Routes = [
                 (m) => m.NotificationModule
               ),
           },
-          // {
-          //   path: 'reminders',
-          //   loadChildren: () =>
-          //     import('./reminder/reminder.module').then(
-          //       (m) => m.ReminderModule
-          //     ),
-          // },
+          {
+            path: 'reminders',
+            loadChildren: () =>
+              import('./reminder/reminder.module').then(
+                (m) => m.ReminderModule
+              ),
+          },
           {
             path: '**',
             redirectTo: '/',

@@ -38,6 +38,15 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: 'reminders',
+    title: 'REMINDER',
+    icon: 'bell',
+    class: '',
+    groupTitle: false,
+    claims: ['REMINDER_VIEW_REMINDERS'],
+    submenu: [],
+  },
+  {
     path: 'login-audit',
     title: 'LOGIN_AUDITS',
     icon: 'log-in',

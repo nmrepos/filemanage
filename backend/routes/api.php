@@ -15,6 +15,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LoginAuditController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserClaimController;
+use App\Http\Controllers\ReminderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,6 +151,35 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('hasToken:USER_ASSIGN_PERMISSION')->group(function () {
         Route::put('/userClaim/{id}', [UserClaimController::class, 'update']);
     });
+
+    //reminder
+    
+    Route::middleware('hasToken:REMINDER_VIEW_REMINDERS')->group(function () {
+        Route::get('/reminder/all', [ReminderController::class, 'getReminders']);
+    });
+
+    Route::middleware('hasToken:REMINDER_CREATE_REMINDER')->group(function () {
+        Route::post('/reminder', [ReminderController::class, 'addReminder']);
+    });
+
+    Route::middleware('hasToken:REMINDER_EDIT_REMINDER')->group(function () {
+        Route::get('/reminder/{id}', [ReminderController::class, 'edit']);
+    });
+
+    Route::middleware('hasToken:REMINDER_EDIT_REMINDER')->group(function () {
+        Route::put('/reminder/{id}', [ReminderController::class, 'updateReminder']);
+    });
+
+    Route::middleware('hasToken:REMINDER_DELETE_REMINDER')->group(function () {
+        Route::delete('/reminder/{id}', [ReminderController::class, 'deleteReminder']);
+    });
+
+    Route::get('/reminder/all/currentuser', [ReminderController::class, 'getReminderForLoginUser']);
+
+    Route::delete('/reminder/currentuser/{id}', [ReminderController::class, 'deleteReminderCurrentUser']);
+
+    Route::post('/reminder/document', [ReminderController::class, 'addReminder']);
+    Route::get('/reminder/{id}/myreminder', [ReminderController::class, 'edit']);
 
 });
 
