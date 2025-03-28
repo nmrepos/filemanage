@@ -13,6 +13,9 @@ use App\Http\Controllers\ActionsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LoginAuditController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserClaimController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -112,7 +115,41 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/pages/{id}', [PagesController::class, 'update']);
     Route::delete('/pages/{id}', [PagesController::class, 'destroy']);
 
+    //user
+    
+    Route::group(['middleware' => ['hasToken:USER_VIEW_USERS']], function () {
+        Route::get('/user', [UserController::class, 'index']);
+    });
 
+    Route::get('/user-dropdown', [UserController::class, 'dropdown']);
+
+    Route::middleware('hasToken:USER_CREATE_USER')->group(function () {
+        Route::post('/user', [UserController::class, 'create']);
+    });
+
+    Route::middleware('hasToken:USER_EDIT_USER')->group(function () {
+        Route::put('/user/{id}', [UserController::class, 'update']);
+    });
+
+    Route::middleware('hasToken:USER_DELETE_USER')->group(function () {
+        Route::delete('/user/{id}', [UserController::class, 'destroy']);
+    });
+
+    Route::middleware('hasToken:USER_EDIT_USER')->group(function () {
+        Route::get('/user/{id}', [UserController::class, 'edit']);
+    });
+
+    Route::middleware('hasToken:USER_RESET_PASSWORD')->group(function () {
+        Route::post('/user/resetpassword', [UserController::class, 'submitResetPassword']);
+    });
+
+    Route::post('/user/changepassword', [UserController::class, 'changePassword']);
+
+    Route::put('/users/profile', [UserController::class, 'updateUserProfile']);
+
+    Route::middleware('hasToken:USER_ASSIGN_PERMISSION')->group(function () {
+        Route::put('/userClaim/{id}', [UserClaimController::class, 'update']);
+    });
 
 });
 

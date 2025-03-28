@@ -20,6 +20,15 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: 'users',
+    title: 'USERS',
+    icon: 'user',
+    class: '',
+    groupTitle: false,
+    claims: ['USER_VIEW_USERS'],
+    submenu: [],
+  },
+  {
     path: 'login-audit',
     title: 'LOGIN_AUDITS',
     icon: 'log-in',
