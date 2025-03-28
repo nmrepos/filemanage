@@ -11,6 +11,15 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: 'categories',
+    title: 'DOCUMENT_CATEGORIES',
+    icon: 'file',
+    class: '',
+    groupTitle: false,
+    claims: ['DOCUMENT_CATEGORY_MANAGE_DOCUMENT_CATEGORY'],
+    submenu: [],
+  },
+  {
     path: 'roles',
     title: 'ROLES',
     icon: 'users',

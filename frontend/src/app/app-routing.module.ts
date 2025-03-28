@@ -44,14 +44,14 @@ const routes: Routes = [
             loadChildren: () =>
               import('./user/user.module').then((m) => m.UserModule),
           },
-          // {
-          //   path: 'categories',
-          //   canLoad: [AuthGuard],
-          //   loadChildren: () =>
-          //     import('./category/category.module').then(
-          //       (m) => m.CategoryModule
-          //     ),
-          // },
+          {
+            path: 'categories',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./category/category.module').then(
+                (m) => m.CategoryModule
+              ),
+          },
           // {
           //   path: 'documents',
           //   canLoad: [AuthGuard],

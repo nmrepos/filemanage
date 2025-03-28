@@ -16,6 +16,7 @@ use App\Http\Controllers\LoginAuditController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserClaimController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -181,6 +182,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reminder/document', [ReminderController::class, 'addReminder']);
     Route::get('/reminder/{id}/myreminder', [ReminderController::class, 'edit']);
 
+
+    //category
+    Route::get('/category/dropdown', [CategoryController::class, 'GetAllCategoriesForDropDown']);
+    Route::middleware('hasToken:DOCUMENT_CATEGORY_MANAGE_DOCUMENT_CATEGORY')->group(function () {
+        Route::get('category', [CategoryController::class, 'index']);
+        Route::post('/category', [CategoryController::class, 'create']);
+        Route::put('/category/{id}', [CategoryController::class, 'update']);
+        Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+        Route::get('/category/{id}/subcategories', [CategoryController::class, 'subcategories']);
+    });
 });
 
 
