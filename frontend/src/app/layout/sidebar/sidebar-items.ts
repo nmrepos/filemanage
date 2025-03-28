@@ -29,6 +29,15 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: 'roles/users',
+    title: 'ROLE_USER',
+    icon: 'user-check',
+    class: '',
+    groupTitle: false,
+    claims: ['USER_ASSIGN_USER_ROLE'],
+    submenu: [],
+  },
+  {
     path: 'login-audit',
     title: 'LOGIN_AUDITS',
     icon: 'log-in',
