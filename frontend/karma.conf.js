@@ -26,7 +26,10 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage'),
       subdir: '.',
-      reporters: ['html', 'text-summary'],
+      reporters: [
+        { type: 'text-summary' }, 
+        { type: 'html' }          
+      ],
       check: {
         global: {
           statements: 80,
