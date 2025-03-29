@@ -36,9 +36,6 @@ jobs:
         working-directory: ./frontend
         run: |
           npm run test -- --watch=false --code-coverage --browsers=ChromeHeadless
-          echo "================ CODE COVERAGE SUMMARY ================"
-          cat coverage/**/coverage-summary.json | jq
-          echo "======================================================="
 
 
   backend:
