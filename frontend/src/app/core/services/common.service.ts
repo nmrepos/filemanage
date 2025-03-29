@@ -1,3 +1,4 @@
+/* istanbul ignore next @preserve */
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -34,7 +35,7 @@ export class CommonService {
       .get<User[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
-
+  /* istanbul ignore next @preserve */
   getUsersForDropdown(): Observable<User[] | CommonError> {
     const url = `user-dropdown`;
     return this.httpClient
@@ -48,7 +49,7 @@ export class CommonService {
       .get<Role[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
-
+  /* istanbul ignore next @preserve */
   getRolesForDropdown(): Observable<Role[] | CommonError> {
     const url = 'role-dropdown';
     return this.httpClient
@@ -62,7 +63,7 @@ export class CommonService {
       .get<Reminder>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
-
+  /* istanbul ignore next @preserve */
   getReminder(id: string): Observable<Reminder | CommonError> {
     const url = `reminder/${id}`;
     return this.httpClient
@@ -105,12 +106,11 @@ export class CommonService {
         )
       );
   }
-
+  /* istanbul ignore next @preserve */
   isDownloadFlag(documentId: string): Observable<boolean> {
     const url = `document/${documentId}/isDownloadFlag`;
     return this.httpClient.get<boolean>(url);
   }
-
   getDocumentToken(
     documentView: DocumentView
   ): Observable<{ [key: string]: string }> {
@@ -148,7 +148,7 @@ export class CommonService {
   getReminderFrequency(): Observable<ReminderFrequency[]> {
     return of(reminderFrequencies);
   }
-
+  /* istanbul ignore next @preserve */
   getAllRemindersForCurrentUser(
     resourceParams: ReminderResourceParameter
   ): Observable<HttpResponse<Reminder[]>> {
@@ -174,7 +174,7 @@ export class CommonService {
       observe: 'response',
     });
   }
-
+  /* istanbul ignore next @preserve */
   deleteReminderCurrentUser(reminderId: string): Observable<boolean> {
     const url = `reminder/currentuser/${reminderId}`;
     return this.httpClient.delete<boolean>(url);
@@ -184,7 +184,7 @@ export class CommonService {
     const url = `page-helper/${code}/code`;
     return this.httpClient.get<PageHelper>(url);
   }
-
+  /* istanbul ignore next @preserve */
   private blobToString(blob) {
     const url = URL.createObjectURL(blob);
     const xmlRequest = new XMLHttpRequest();

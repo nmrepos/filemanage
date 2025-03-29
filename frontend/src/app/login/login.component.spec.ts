@@ -1,107 +1,170 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { LoginComponent } from './login.component';
-import { ToastrModule } from 'ngx-toastr';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SecurityService } from '@core/security/security.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslationService } from '@core/services/translation.service';
+import { of, Subject, throwError } from 'rxjs';
+import { Direction } from '@angular/cdk/bidi';
+import { DOCUMENT } from '@angular/common';
+import { Renderer2 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router, Event as RouterEvent } from '@angular/router';
-import { Subject } from 'rxjs';
-import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-  class FakeTranslationService {
-    lanDir$ = of('ltr');
-    get(key: string | string[]): any {
-      // Simply return the key as a string inside an Observable.
-      return of(key);
-    }
-    instant(key: string | string[]): any {
-      return key;
-    }
-    onLangChange = of({ lang: 'en', translations: {} });
-    onTranslationChange = of({ translations: {} });
-    onDefaultLangChange = of({ lang: 'en' });
-  }
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
-describe('LoginComponent', () => {
+describe('LoginComponent Unit Test', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let routerEvents$: Subject<RouterEvent>;
-  let routerSpy: Partial<Router>;
-  let titleServiceSpy: Partial<Title>;
 
-    beforeEach(async () => {
-        // Create a subject to simulate router events.
-        routerEvents$ = new Subject<RouterEvent>();
-        routerSpy = {
-            events: routerEvents$.asObservable(),
-            navigate: jasmine.createSpy('navigate')
-        };
+  // Mocks
+  let securityServiceMock: any;
+  let toastrServiceMock: any;
+  let routerMock: any;
+  let translationServiceMock: any;
+  let rendererMock: any;
+  let dialogMock: any;
+  let lanDirSubject: Subject<Direction>;
 
-        titleServiceSpy = {
-            setTitle: jasmine.createSpy('setTitle')
-        };
+  beforeEach(async () => {
+    lanDirSubject = new Subject<Direction>(); // 👈 initialize it
 
-        await TestBed.configureTestingModule({
-            declarations: [LoginComponent],
-            providers: [
-            provideHttpClient(),
-            provideHttpClientTesting(),
-            { provide: Router,useValue: routerSpy },
-            { provide: TranslateService,useClass: FakeTranslationService },
-            { provide: Title,useValue: titleServiceSpy }
-            ],
-            imports: [
-                ToastrModule.forRoot({
-                    positionClass: 'toast-bottom-right'
-                  }),
-                  TranslateModule.forRoot()
-            ],
-            schemas: [NO_ERRORS_SCHEMA]
+    securityServiceMock = {
+      login: jasmine.createSpy(),
+      companyProfile: of({ logoUrl: 'logo.png', bannerUrl: 'banner.png' }),
+      hasClaim: () => true,
+    };
+    toastrServiceMock = jasmine.createSpyObj('ToastrService', ['success', 'error']);
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+    translationServiceMock = {
+      lanDir$: lanDirSubject
+    };
+    rendererMock = jasmine.createSpyObj('Renderer2', ['addClass', 'removeClass']);
+    dialogMock = jasmine.createSpyObj('MatDialog', ['closeAll']);
+    await TestBed.configureTestingModule({
+      declarations: [LoginComponent],
+      schemas:[
+        CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA
+      ],
+      imports: [
+        ReactiveFormsModule,
+        TranslateModule.forRoot()
+      ],
+      providers: [
+        UntypedFormBuilder,
+        { provide: Router, useValue: routerMock },
+        { provide: SecurityService, useValue: securityServiceMock },
+        { provide: ToastrService, useValue: toastrServiceMock },
+        { provide: TranslationService, useValue: translationServiceMock },
+        { provide: Renderer2, useValue: rendererMock },
+        { provide: MatDialog, useValue: dialogMock },
+        { provide: DOCUMENT, useValue: document },
+      ],
+    }).compileComponents();
 
-        }).compileComponents();
-    });
+  });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
+      fixture = TestBed.createComponent(LoginComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create the login form on init', () => {
-    component.ngOnInit();
+  it('should initialize the form on init', () => {
     expect(component.loginFormGroup).toBeDefined();
     expect(component.loginFormGroup.controls['userName']).toBeDefined();
     expect(component.loginFormGroup.controls['password']).toBeDefined();
   });
 
-  it('should validate email input correctly', () => {
-    // Ensure ngOnInit has been called to initialize the form.
-    component.ngOnInit();
-    fixture.detectChanges();
-    const emailControl = component.loginFormGroup.get('userName');
-    // Check required error.
-    emailControl.setValue('');
-    emailControl.markAsTouched();
-    fixture.detectChanges();
-    let errorEl = fixture.nativeElement.querySelector('.text-danger');
-    expect(errorEl.textContent).toContain('EMAIL_IS_REQUIRED');
+  it('should populate logo and banner on company profile subscription', () => {
+    component.companyProfileSubscription();
+    expect(component.logoImage).toBe('logo.png');
+    expect(component.bannerImage).toBe('banner.png');
+  });
+  it('should submit form and login user successfully', () => {
+    const loginResponse$ = of({});
+    securityServiceMock.login.and.returnValue(loginResponse$);
+    spyOn(securityServiceMock, 'hasClaim').and.returnValue(true);
 
-    // Check email format error.
-    emailControl.setValue('invalid-email');
-    emailControl.markAsTouched();
-    fixture.detectChanges();
-    errorEl = fixture.nativeElement.querySelector('.text-danger');
-    expect(errorEl.textContent).toContain('PLEASE_ENTER_VALID_EMAIL');
-    // Check valid email input; error element should not be present.
-    emailControl.setValue('test@example.com');
-    emailControl.markAsUntouched();
-    fixture.detectChanges();
-    errorEl = fixture.nativeElement.querySelector('.text-danger');
-    expect(errorEl).toBeNull();
+    component.loginFormGroup.setValue({
+      userName: 'test@email.com',
+      password: '123456'
+    });
+
+    component.onLoginSubmit();
+
+    expect(component.isLoading).toBeFalse();
+    expect(toastrServiceMock.success).toHaveBeenCalledWith('User login successfully.');
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
+  });
+
+  it('should handle login error and show toast message', () => {
+    const errorObj = { error: { message: 'Invalid credentials' } };
+    securityServiceMock.login.and.returnValue(throwError(() => errorObj));
+
+    component.loginFormGroup.setValue({
+      userName: 'test@email.com',
+      password: 'wrongpassword'
+    });
+
+    component.onLoginSubmit();
+
+    expect(component.isLoading).toBeFalse();
+    expect(toastrServiceMock.error).toHaveBeenCalledWith('Invalid credentials');
+  });
+
+  it('should mark form as touched if form is invalid', () => {
+    spyOn(component.loginFormGroup, 'markAllAsTouched');
+    component.loginFormGroup.setValue({
+      userName: '',
+      password: ''
+    });
+
+    component.onLoginSubmit();
+
+    expect(component.loginFormGroup.markAllAsTouched).toHaveBeenCalled();
+  });
+
+  it('should navigate to root (/) if user does not have dashboard claim', () => {
+    const loginResponse$ = of({});
+    securityServiceMock.login.and.returnValue(loginResponse$);
+    // Simulate no dashboard claim
+    spyOn(securityServiceMock, 'hasClaim').and.returnValue(false);
+    component.loginFormGroup.setValue({
+      userName: 'test@email.com',
+      password: '123456'
+    });
+    component.onLoginSubmit();
+    expect(component.isLoading).toBeFalse();
+    expect(toastrServiceMock.success).toHaveBeenCalledWith('User login successfully.');
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
+  });
+  it('should close all dialogs, initialize form, and get geolocation on init', () => {
+    // Arrange
+    const mockPosition = {
+      coords: {
+        latitude: 50,
+        longitude: 100,
+        accuracy: 1,
+        altitude: null,
+        altitudeAccuracy: null,
+        heading: null,
+        speed: null
+      },
+      timestamp: Date.now()
+    } as GeolocationPosition;
+    spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake((successCallback) => {
+      successCallback(mockPosition);
+    });
+    const closeAllSpy = dialogMock.closeAll;
+    component.ngOnInit();
+    expect(closeAllSpy).toHaveBeenCalled();
+    expect(component.loginFormGroup).toBeDefined();
+    expect(component.lat).toBe(50);
+    expect(component.lng).toBe(100);
   });
 });

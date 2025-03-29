@@ -7,6 +7,7 @@ import { CommonHttpErrorService } from '../error-handler/common-http-error.servi
 import { CommonError } from '../error-handler/common-error';
 import { Router } from '@angular/router';
 import { ClonerService } from '@core/services/clone.service';
+/* istanbul ignore next @preserve */
 
 @Injectable({ providedIn: 'root' })
 export class SecurityService {

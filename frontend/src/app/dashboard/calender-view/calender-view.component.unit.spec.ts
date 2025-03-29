@@ -9,6 +9,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { DashboradService } from '../dashboard.service';
 import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 
 describe('CalenderViewComponent Unit Test', () => {
   let component: CalenderViewComponent;
@@ -77,5 +78,28 @@ describe('CalenderViewComponent Unit Test', () => {
     component.handleEvent('Clicked', mockEvent);
     expect(mockDialog.open).toHaveBeenCalled();
   });
+  it('should close day if same day and activeDayIsOpen is true', () => {
+    const today = new Date();
+    component.viewDate = today;
+    component.activeDayIsOpen = true;
+    component.dayClicked({ date: today, events: [{ start: today, title: 'Test' }] });
+    expect(component.activeDayIsOpen).toBeFalse();
+  });
 
+  it('should open day if not same day and there are events', () => {
+    const today = new Date();
+    const nextDay = new Date(today);
+    nextDay.setDate(today.getDate() + 1);
+    component.viewDate = today;
+    component.activeDayIsOpen = false;
+    component.dayClicked({ date: nextDay, events: [{ start: nextDay, title: 'Event' }] });
+    expect(component.activeDayIsOpen).toBeTrue();
+    expect(component.viewDate).toEqual(nextDay);
+  });
+
+  it('should set isProcessing to false if getReminders fails', () => {
+    mockDashboardService.getReminders.and.returnValue(throwError(() => new Error('Test error')));
+    component.gerReminders(3, 2025);
+    expect(component.isProcessing).toBeFalse();
+  });
 });
