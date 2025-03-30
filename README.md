@@ -4,7 +4,7 @@ Filemanage is a full‑stack file management system that streamlines document st
 
 Link : http://filemanage-frontend.s3-website-us-east-1.amazonaws.com/login/
 ---
-
+![CI](https://github.com/nmrepos/filemanage/actions/workflows/ci.yml/badge.svg)
 ## Table of Contents
 
 - [Overview](#overview)
