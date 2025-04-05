@@ -11,6 +11,9 @@
     "src/app/*.spec.ts",
     "src/app/login/*.spec.ts",
     "src/app/dashboard/*.spec.ts",
+    "src/app/dashboard/*/*.spec.ts",
+    "src/app/core/*/*.spec.ts",
+    "src/app/shared/*/*.spec.ts",
     "src/**/*.d.ts"
   ]
 }

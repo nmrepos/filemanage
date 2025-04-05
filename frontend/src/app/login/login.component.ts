@@ -51,7 +51,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this.lng = position.coords.longitude;
     });
   }
-
   getLangDir() {
     this.sub$.sink = this.translationService.lanDir$.subscribe(
       (c: Direction) => {

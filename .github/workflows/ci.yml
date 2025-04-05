@@ -32,9 +32,11 @@ jobs:
         working-directory: ./frontend
         run: npm run lint
 
-      - name: Run Angular Tests
+      - name: Run Angular Tests with Coverage
         working-directory: ./frontend
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        run: |
+          npm run test -- --watch=false --code-coverage --browsers=ChromeHeadless
+
 
   backend:
     name: Laravel CI

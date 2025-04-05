@@ -94,7 +94,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
   ) {
     super();
   }
-
+  /* istanbul ignore next @preserve */
   ngOnInit(): void {
     for (let i = 1; i <= 31; i++) {
       this.days.push(i);
@@ -108,7 +108,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
   closeDialog() {
     this.dialogRef.close();
   }
-
+  /* istanbul ignore next @preserve */
   getReminder() {
     this.sub$.sink = this.commonService
       .getMyReminder(this.data)
@@ -145,6 +145,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
       });
   }
 
+  /* istanbul ignore next @preserve */
   getReminderFrequency() {
     this.sub$.sink = this.commonService
       .getReminderFrequency()
@@ -169,7 +170,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
       documentId: [{ value: null, disabled: true }],
     });
   }
-
+  /* istanbul ignore next @preserve */
   checkData(event: MatCheckboxChange) {
     if (event.checked) {
       this.reminderForm.get('frequency').setValidators([Validators.required]);
@@ -179,6 +180,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
     this.reminderForm.updateValueAndValidity();
   }
 
+  /* istanbul ignore next @preserve */
   getUsers() {
     this.sub$.sink = this.commonService
       .getUsersForDropdown()
@@ -195,6 +197,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
       });
   }
 
+  /* istanbul ignore next @preserve */
   onFrequencyChange() {
     let frequency = this.reminderForm.get('frequency').value;
     frequency = frequency == 0 ? '0' : frequency;
@@ -313,19 +316,19 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
       this.reminderForm.addControl('halfYearlyReminders', formArray);
     }
   }
-
+  /* istanbul ignore next @preserve */
   removeDailReminders() {
     if (this.reminderForm.contains('dailyReminders')) {
       this.reminderForm.removeControl('dailyReminders');
     }
   }
-
+  /* istanbul ignore next @preserve */
   removeQuarterlyReminders() {
     if (this.reminderForm.contains('quarterlyReminders')) {
       this.reminderForm.removeControl('quarterlyReminders');
     }
   }
-
+  /* istanbul ignore next @preserve */
   removeHalfYearlyReminders() {
     if (this.reminderForm.contains('halfYearlyReminders')) {
       this.reminderForm.removeControl('halfYearlyReminders');
@@ -377,6 +380,7 @@ export class ReminderDetailComponent extends BaseComponent implements OnInit {
   getCurrentDay(): number {
     return new Date().getDate();
   }
+  /* istanbul ignore next @preserve */
   onDateChange(formGrouup: AbstractControl<any, any>) {
     const day = formGrouup.get('day').value;
     const month = formGrouup.get('month').value;

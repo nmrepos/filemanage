@@ -13,6 +13,11 @@ use App\Http\Controllers\ActionsController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\LoginAuditController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserClaimController;
+use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -112,8 +117,81 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/pages/{id}', [PagesController::class, 'update']);
     Route::delete('/pages/{id}', [PagesController::class, 'destroy']);
 
+    //user
+    
+    Route::group(['middleware' => ['hasToken:USER_VIEW_USERS']], function () {
+        Route::get('/user', [UserController::class, 'index']);
+    });
+
+    Route::get('/user-dropdown', [UserController::class, 'dropdown']);
+
+    Route::middleware('hasToken:USER_CREATE_USER')->group(function () {
+        Route::post('/user', [UserController::class, 'create']);
+    });
+
+    Route::middleware('hasToken:USER_EDIT_USER')->group(function () {
+        Route::put('/user/{id}', [UserController::class, 'update']);
+    });
+
+    Route::middleware('hasToken:USER_DELETE_USER')->group(function () {
+        Route::delete('/user/{id}', [UserController::class, 'destroy']);
+    });
+
+    Route::middleware('hasToken:USER_EDIT_USER')->group(function () {
+        Route::get('/user/{id}', [UserController::class, 'edit']);
+    });
+
+    Route::middleware('hasToken:USER_RESET_PASSWORD')->group(function () {
+        Route::post('/user/resetpassword', [UserController::class, 'submitResetPassword']);
+    });
+
+    Route::post('/user/changepassword', [UserController::class, 'changePassword']);
+
+    Route::put('/users/profile', [UserController::class, 'updateUserProfile']);
+
+    Route::middleware('hasToken:USER_ASSIGN_PERMISSION')->group(function () {
+        Route::put('/userClaim/{id}', [UserClaimController::class, 'update']);
+    });
+
+    //reminder
+    
+    Route::middleware('hasToken:REMINDER_VIEW_REMINDERS')->group(function () {
+        Route::get('/reminder/all', [ReminderController::class, 'getReminders']);
+    });
+
+    Route::middleware('hasToken:REMINDER_CREATE_REMINDER')->group(function () {
+        Route::post('/reminder', [ReminderController::class, 'addReminder']);
+    });
+
+    Route::middleware('hasToken:REMINDER_EDIT_REMINDER')->group(function () {
+        Route::get('/reminder/{id}', [ReminderController::class, 'edit']);
+    });
+
+    Route::middleware('hasToken:REMINDER_EDIT_REMINDER')->group(function () {
+        Route::put('/reminder/{id}', [ReminderController::class, 'updateReminder']);
+    });
+
+    Route::middleware('hasToken:REMINDER_DELETE_REMINDER')->group(function () {
+        Route::delete('/reminder/{id}', [ReminderController::class, 'deleteReminder']);
+    });
+
+    Route::get('/reminder/all/currentuser', [ReminderController::class, 'getReminderForLoginUser']);
+
+    Route::delete('/reminder/currentuser/{id}', [ReminderController::class, 'deleteReminderCurrentUser']);
+
+    Route::post('/reminder/document', [ReminderController::class, 'addReminder']);
+    Route::get('/reminder/{id}/myreminder', [ReminderController::class, 'edit']);
 
 
+    //category
+    Route::get('/category/dropdown', [CategoryController::class, 'GetAllCategoriesForDropDown']);
+    Route::middleware('hasToken:DOCUMENT_CATEGORY_MANAGE_DOCUMENT_CATEGORY')->group(function () {
+        Route::get('category', [CategoryController::class, 'index']);
+        Route::post('/category', [CategoryController::class, 'create']);
+        Route::put('/category/{id}', [CategoryController::class, 'update']);
+        Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+        Route::get('/category/{id}/subcategories', [CategoryController::class, 'subcategories']);
+    });
 });
 
 
