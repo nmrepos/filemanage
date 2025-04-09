@@ -81,10 +81,6 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: root
 
-      - uses: ankane/setup-mysql@v1
-        with:
-          mysql-version: 8.0
-
       - name: Run Laravel Lint (using PHP CodeSniffer)
         working-directory: ./backend
         run: |
