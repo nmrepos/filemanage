@@ -1,6 +1,4 @@
 /node_modules
-/public/build
-/public/hot
 /vendor
 .env.backup
 .env.production
@@ -13,6 +11,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-storage/framework/cache/
-public/assets/angular
 .env
