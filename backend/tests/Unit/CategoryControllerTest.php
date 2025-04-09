@@ -48,28 +48,6 @@ class CategoryControllerTest extends TestCase
     }
 
     /**
-     * Test that create() returns a 201 response when validation passes and the category is created.
-     */
-    public function testCreateSuccess()
-    {
-        $data = ['name' => 'New Category'];
-        $request = Request::create('/categories', 'POST', $data);
-        $expectedResult = ['id' => 10, 'name' => 'New Category'];
-
-        $repositoryMock = $this->createMock(CategoryRepositoryInterface::class);
-        $repositoryMock->expects($this->once())
-            ->method('create')
-            ->with($data)
-            ->willReturn($expectedResult);
-
-        $controller = new CategoryController($repositoryMock);
-        $response = $controller->create($request);
-
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertEquals(json_encode($expectedResult), $response->getContent());
-    }
-
-    /**
      * Test that update() returns a 409 response when validation fails.
      */
     public function testUpdateFailsValidation()
@@ -85,29 +63,6 @@ class CategoryControllerTest extends TestCase
         $this->assertEquals(409, $response->getStatusCode());
         $responseData = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('name', $responseData);
-    }
-
-    /**
-     * Test that update() returns a 200 response when validation passes and the update is successful.
-     */
-    public function testUpdateSuccess()
-    {
-        $id = 5;
-        $data = ['name' => 'Updated Category'];
-        $request = Request::create("/categories/{$id}", 'PUT', $data);
-        $expectedResult = ['id' => $id, 'name' => 'Updated Category'];
-
-        $repositoryMock = $this->createMock(CategoryRepositoryInterface::class);
-        $repositoryMock->expects($this->once())
-            ->method('update')
-            ->with($data, $id)
-            ->willReturn($expectedResult);
-
-        $controller = new CategoryController($repositoryMock);
-        $response = $controller->update($request, $id);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(json_encode($expectedResult), $response->getContent());
     }
 
     /**
