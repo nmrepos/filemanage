@@ -89,3 +89,10 @@ jobs:
       - name: Run Laravel Tests
         working-directory: ./backend
         run: php artisan test
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: test_db
+          DB_USERNAME: root
+          DB_PASSWORD: root
