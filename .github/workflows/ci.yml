@@ -75,20 +75,20 @@ jobs:
           php artisan key:generate
         env:
           DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: test_db
           DB_USERNAME: root
           DB_PASSWORD: root
 
+      - name: Start MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+
       - name: Run Laravel Lint (using PHP CodeSniffer)
         working-directory: ./backend
         run: |
           vendor/bin/phpcs --standard=phpcs.xml app
-
-      - name: Run Laravel Migrations
-        working-directory: ./backend
-        run: php artisan migrate --no-interaction --force
 
       - name: Run Laravel Tests
         working-directory: ./backend
