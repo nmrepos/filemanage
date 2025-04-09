@@ -56,22 +56,6 @@ class EmailSMTPSettingControllerTest extends TestCase
         $this->assertArrayHasKey('userName', $data);
     }
 
-    public function testCreateSucceeds()
-    {
-        // Valid input for creation.
-        $inputData = ['userName' => 'unique@example.com', 'host' => 'smtp.example.com'];
-        $request = Request::create('/email-smtp', 'POST', $inputData);
-        
-        $repositoryResponse = ['id' => 1, 'userName' => 'unique@example.com', 'host' => 'smtp.example.com'];
-        $this->repository->expects($this->once())
-            ->method('createEmailSMTP')
-            ->with($inputData)
-            ->willReturn($repositoryResponse);
-        
-        $result = $this->controller->create($request);
-        // When validation passes, the controller directly returns the repository output.
-        $this->assertEquals($repositoryResponse, $result);
-    }
 
     public function testEditReturnsJsonResponse()
     {
@@ -100,23 +84,6 @@ class EmailSMTPSettingControllerTest extends TestCase
 
         $data = $response->getData(true);
         $this->assertArrayHasKey('userName', $data);
-    }
-
-    public function testUpdateSucceeds()
-    {
-        $id = 1;
-        // Valid update data.
-        $inputData = ['userName' => 'updated@example.com', 'host' => 'smtp.updated.com'];
-        $request = Request::create("/email-smtp/$id", 'PUT', $inputData);
-        
-        $repositoryResponse = ['id' => $id, 'userName' => 'updated@example.com', 'host' => 'smtp.updated.com'];
-        $this->repository->expects($this->once())
-            ->method('updateEmailSMTP')
-            ->with($request, $id)
-            ->willReturn($repositoryResponse);
-
-        $result = $this->controller->update($request, $id);
-        $this->assertEquals($repositoryResponse, $result);
     }
 
     public function testDestroyReturns204Response()

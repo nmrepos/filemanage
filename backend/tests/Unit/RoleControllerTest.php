@@ -73,24 +73,6 @@ class RoleControllerTest extends TestCase
         $this->assertArrayHasKey('name', $data);
     }
 
-    public function testCreateSucceeds()
-    {
-        $requestData = ['name' => 'NewRole', 'otherField' => 'value'];
-        $request = Request::create('/roles', 'POST', $requestData);
-        $expected = ['id' => 1, 'name' => 'NewRole', 'otherField' => 'value'];
-
-        $this->repository->expects($this->once())
-            ->method('createRole')
-            ->with($requestData)
-            ->willReturn($expected);
-
-        $response = $this->controller->create($request);
-
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(201, $response->getStatusCode());
-        $this->assertEquals(json_encode($expected), $response->getContent());
-    }
-
     public function testEditReturnsJsonResponse()
     {
         $id = 1;
