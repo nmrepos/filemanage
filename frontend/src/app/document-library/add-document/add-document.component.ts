@@ -182,7 +182,6 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
   get userPermissionFormGroup() {
     return this.documentForm.get('userPermissionForm') as FormGroup;
   }
-  
   onMetatagChange(event: any, index: number) {
     const email = this.documentMetaTagsArray.at(index).get('metatag').value;
     if (!email) {
