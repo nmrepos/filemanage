@@ -7,7 +7,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         logToTerminal(message: string) {
-          // eslint-disable-next-line no-console
           console.log('💡 CYPRESS LOG:', message)
           return null
         }

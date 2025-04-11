@@ -32,4 +32,3 @@ describe('Login Audit Logs Page', () => {
         cy.wait(500);
     });
 });
-  
