@@ -25,7 +25,7 @@
                     <div class="col-sm-12">
                       <div class="mb-3">
                         <label for="username" class="form-label">{{'EMAIL' | translate}}</label>
-                        <input formControlName="userName" class="form-control" type="text">
+                        <input id="uname" formControlName="userName" class="form-control" type="text">
                         <div class="text-danger"
                           *ngIf="loginFormGroup.get('userName').touched && loginFormGroup.get('userName')?.hasError('required')">
                           {{'EMAIL_IS_REQUIRED' | translate}}
@@ -39,7 +39,7 @@
                     <div class="col-sm-12">
                       <div class="mb-3">
                         <label for="password" class="form-label">{{'PASSWORD' | translate}}</label>
-                        <input type="password" formControlName="password" class="form-control" type="password">
+                        <input id="pass" type="password" formControlName="password" class="form-control" type="password">
                         <div class="text-danger"
                           *ngIf="loginFormGroup.get('password').touched && loginFormGroup.get('password')?.hasError('required')">
                           {{'PASSWORD_IS_REQUIRED' | translate}}
@@ -49,7 +49,7 @@
                     <div class="col-sm-12 mb-3">
                       <a class="forget-password-btn" [routerLink]="['/forgot-password']">{{'FORGOT_PASSWORD' |
                         translate}}?</a>
-                      <button mat-flat-button color="primary" class="login100-form-btn btn-sm" type="submit">
+                      <button id="loginbtn" mat-flat-button color="primary" class="login100-form-btn btn-sm" type="submit">
                         {{'LOGIN' | translate}}
                       </button>
                     </div>
