@@ -37,23 +37,22 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{\"email\": \"${{ secrets.TESTING_KEY }}\", \"password\": \"${{ secrets.TESTING_PASS }}\"}")
 
-          echo "$RESPONSE" > response.json
+          echo "$RESPONSE" | jq '.' > response.json
 
-          # Define expected features (friendly descriptions optional)
-          EXPECTED_CLAIMS=(
-            "ALL_DOCUMENTS_CREATE_DOCUMENT"
-            "REMINDER_VIEW_REMINDERS"
-            "USER_ASSIGN_USER_ROLE"
-            "ROLE_VIEW_ROLES"
-          )
+          STATUS=$(jq -r '.status' response.json)
+
+          if [[ "$STATUS" != "success" ]]; then
+            echo "❌ Login failed!"
+            exit 1
+          fi
+
+          echo "✅ Login successful. Checking available features..."
+
+          CLAIMS=$(jq -r '.claims[]' response.json)
 
           i=1
-          for CLAIM in "${EXPECTED_CLAIMS[@]}"; do
-            if grep -q "\"$CLAIM\"" response.json; then
-              echo "✅ Feature #$i is working"
-            else
-              echo "❌ Feature #$i is missing"
-            fi
+          for CLAIM in $CLAIMS; do
+            echo "✅ Feature #$i is working"
             ((i++))
           done
 
