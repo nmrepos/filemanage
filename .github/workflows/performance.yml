@@ -29,7 +29,7 @@ jobs:
           fi
           echo "✅ Api Test succeeded. Backend is healthy."
 
-            - name: ✅ Validate Core Features via Claims
+      - name: ✅ Validate Core Features via Claims
         run: |
           echo "Authenticating to check feature access..."
 
