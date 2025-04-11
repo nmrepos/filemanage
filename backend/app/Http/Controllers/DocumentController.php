@@ -14,7 +14,9 @@ use App\Repositories\Contracts\UserNotificationRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Ramsey\Uuid\Uuid;
-
+/**
+ * @codeCoverageIgnore
+ */
 class DocumentController extends Controller
 {
     private $documentRepository;

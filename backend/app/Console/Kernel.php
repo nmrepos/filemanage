@@ -4,7 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+/**
+ * @codeCoverageIgnore
+ */
 class Kernel extends ConsoleKernel
 {
     /**

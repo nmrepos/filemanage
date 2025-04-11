@@ -1,29 +1,58 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
 import { AuthGuard } from '@core/security/auth.guard';
 import { MyProfileComponent } from './user/my-profile/my-profile.component';
+import { AppComponent } from './app.component';
+import { CompanyProfileResolver } from './company-profile/company-profile.resolver';
+import { DocumentLinkPreviewComponent } from '@shared/document-link-preview/document-link-preview.component';
+
 const routes: Routes = [
   {
     path: '',
     component: AppComponent,
+    resolve: { profile: CompanyProfileResolver },
     children: [
+      {
+        path: 'preview/:code',
+        component: DocumentLinkPreviewComponent,
+      },
       {
         path: 'login',
         loadChildren: () =>
           import('./login/login.module').then((m) => m.LoginModule),
       },
-
+      {
+        path: 'forgot-password',
+        loadChildren: () =>
+          import('./forgot-password/forgot-password.module').then(
+            (m) => m.ForgotPasswordModule
+          ),
+      },
+      {
+        path: 'reset-password',
+        loadChildren: () =>
+          import('./recover-password/recover-password.module').then(
+            (m) => m.RecoverPasswordModule
+          ),
+      },
       {
         path: '',
         component: LayoutComponent,
         children: [
-        {
-          path: 'my-profile',
-          component: MyProfileComponent,
-          canActivate: [AuthGuard],
-        },
+          {
+            path: '',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./document-library/document-library.module').then(
+                (m) => m.DocumentLibraryModule
+              ),
+          },
+          {
+            path: 'my-profile',
+            component: MyProfileComponent,
+            canActivate: [AuthGuard],
+          },
           {
             path: 'dashboard',
             canLoad: [AuthGuard],
@@ -31,6 +60,12 @@ const routes: Routes = [
               import('./dashboard/dashboard.module').then(
                 (m) => m.DashboardModule
               ),
+          },
+          {
+            path: 'pages',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./page/page.module').then((m) => m.PageModule),
           },
           {
             path: 'roles',
@@ -52,22 +87,22 @@ const routes: Routes = [
                 (m) => m.CategoryModule
               ),
           },
-          // {
-          //   path: 'documents',
-          //   canLoad: [AuthGuard],
-          //   loadChildren: () =>
-          //     import('./document/document.module').then(
-          //       (m) => m.DocumentModule
-          //     ),
-          // },
-          // {
-          //   path: 'document-audit-trails',
-          //   canLoad: [AuthGuard],
-          //   loadChildren: () =>
-          //     import('./document-audit-trail/document-audit-trail.module').then(
-          //       (m) => m.DocumentAuditTrailModule
-          //     ),
-          // },
+          {
+            path: 'documents',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./document/document.module').then(
+                (m) => m.DocumentModule
+              ),
+          },
+          {
+            path: 'document-audit-trails',
+            canLoad: [AuthGuard],
+            loadChildren: () =>
+              import('./document-audit-trail/document-audit-trail.module').then(
+                (m) => m.DocumentAuditTrailModule
+              ),
+          },
           {
             path: 'login-audit',
             canLoad: [AuthGuard],
@@ -92,12 +127,46 @@ const routes: Routes = [
               ),
           },
           {
+            path: 'email-smtp',
+            loadChildren: () =>
+              import('./email-smtp-setting/email-smtp-setting.module').then(
+                (m) => m.EmailSmtpSettingModule
+              ),
+          },
+          {
+            path: 'company-profile',
+            loadChildren: () =>
+              import('./company-profile/company-profile.module').then(
+                (m) => m.CompanyProfileModule
+              ),
+          },
+          {
+            path: 'languages',
+            loadChildren: () =>
+              import('./languages/languages.module').then(
+                (m) => m.LanguagesModule
+              ),
+          },
+          {
+            path: 'archived-documents',
+            loadChildren: () =>
+              import('./archived-document/archived-document.module').then(
+                (c) => c.ArchivedDocumentModule
+              ),
+          },
+          {
+            path: 'page-helper',
+            loadChildren: () =>
+              import('./page-helper/page-helper.module').then(
+                (c) => c.PageHelperModule
+              ),
+          },
+          {
             path: '**',
             redirectTo: '/',
           },
         ],
       },
-
     ],
   },
 ];

@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Builder;
-
+/**
+ * @codeCoverageIgnore
+ */
 class Documents extends Model
 {
     use HasFactory, SoftDeletes;

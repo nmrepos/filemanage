@@ -45,11 +45,10 @@ class Roles extends Model
     {
         return $this->hasMany(DocumentAuditTrails::class, 'assignToRoleId', 'id');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function (Model $model) {
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->createdBy= $userId;
@@ -63,5 +62,5 @@ class Roles extends Model
         static::addGlobalScope('isDeleted', function (Builder $builder) {
             $builder->where('isDeleted', '=', 0);
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

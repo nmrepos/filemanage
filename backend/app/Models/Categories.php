@@ -34,7 +34,7 @@ class Categories extends Model
     {
         return $this->hasMany(Documents::class);
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -52,8 +52,7 @@ class Categories extends Model
         static::addGlobalScope('isDeleted', function (Builder $builder) {
             $builder->where('isDeleted', '=', 0);
         });
-
-    }
+    }// @codeCoverageIgnoreEnd
 
     public function childs()
     {

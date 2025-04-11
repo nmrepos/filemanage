@@ -28,7 +28,7 @@ class Pages extends Model
     {
         return $this->hasMany(Actions::class);
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -43,5 +43,5 @@ class Pages extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy =$userId;
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

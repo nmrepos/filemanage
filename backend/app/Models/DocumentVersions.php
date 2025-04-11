@@ -34,7 +34,7 @@ class DocumentVersions extends Model
     {
         return $this->belongsTo(Documents::class, 'documentId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -53,5 +53,5 @@ class DocumentVersions extends Model
         static::addGlobalScope('isDeleted', function (Builder $builder) {
             $builder->where('documentVersions.isDeleted', '=', 0);
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

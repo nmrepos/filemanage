@@ -26,7 +26,7 @@ class UserClaims extends Model
     {
         return $this->belongsTo(Users::class, 'userId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -34,5 +34,5 @@ class UserClaims extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

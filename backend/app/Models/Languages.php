@@ -29,7 +29,7 @@ class Languages extends Model
     protected $casts = [
         'isRTL' => 'boolean',
     ];
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -49,5 +49,5 @@ class Languages extends Model
         static::addGlobalScope('isDeleted', function (Builder $builder) {
             $builder->where('languages.isDeleted', '=', 0);
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

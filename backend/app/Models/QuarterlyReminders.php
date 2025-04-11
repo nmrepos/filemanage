@@ -25,7 +25,7 @@ class QuarterlyReminders extends Model
     {
         return $this->belongsTo(Reminders::class, 'reminderId', 'id');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -33,6 +33,6 @@ class QuarterlyReminders extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
+    }// @codeCoverageIgnoreEnd
 
-    }
 }

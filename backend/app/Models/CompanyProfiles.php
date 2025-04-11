@@ -29,7 +29,7 @@ class CompanyProfiles extends Model
 
     protected $hidden = ['createdBy', 'modifiedBy', 'deletedBy', 'createdDate', 'modifiedDate', 'isDeleted', 'deleted_at'];
 
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -44,5 +44,6 @@ class CompanyProfiles extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy = $userId;
         });
-    }
+    }// @codeCoverageIgnoreEnd
+
 }

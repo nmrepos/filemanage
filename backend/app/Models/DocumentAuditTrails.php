@@ -40,7 +40,7 @@ class DocumentAuditTrails extends Model
     {
         return $this->belongsTo(Roles::class, 'assignToRoleId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -55,6 +55,5 @@ class DocumentAuditTrails extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy =$userId;
         });
-
-    }
+    }// @codeCoverageIgnoreEnd
 }

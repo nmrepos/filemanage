@@ -29,7 +29,7 @@ class EmailSMTPSettings extends Model
     protected $casts = [
         'isDefault' => 'boolean'
     ];
-
+    
     protected static function boot()
     {
         parent::boot();

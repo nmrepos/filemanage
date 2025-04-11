@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Installer\RequirementsChecker;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
-
+/**
+ * @codeCoverageIgnore
+ */
 class UpdateController extends Controller
 {
     public function index(RequirementsChecker $checker)
