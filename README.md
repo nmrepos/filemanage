@@ -1,5 +1,5 @@
 # Filemanage System 
-![CI](https://github.com/nmrepos/filemanage/actions/workflows/ci.yml/badge.svg) ![CI](https://github.com/nmrepos/filemanage/actions/workflows/deploy.yml/badge.svg)
+![CI](https://github.com/nmrepos/filemanage/actions/workflows/ci.yml/badge.svg) ![CI](https://github.com/nmrepos/filemanage/actions/workflows/deploy.yml/badge.svg) ![E2E](https://github.com/nmrepos/filemanage/actions/workflows/e2e.yml/badge.svg) ![Performance](https://github.com/nmrepos/filemanage/actions/workflows/performance.yml/badge.svg)
 
 Filemanage is a full‑stack file management system that streamlines document storage, access control, and collaboration. It leverages a modern Angular frontend, a robust Laravel backend, and a CI/CD pipeline for automated testing and deployment.
 
