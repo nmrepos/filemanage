@@ -1,0 +1,22 @@
+name: Cypress Smoke Test on Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress on Production
+        uses: cypress-io/github-action@v5
+        with:
+          project: .
+          config: baseUrl=https://yourapp.com
+          browser: chrome  # or electron, firefox
