@@ -24,8 +24,37 @@ jobs:
 
           echo "Status Code: $RESPONSE"
           if [[ "$RESPONSE" != "200" ]]; then
-            echo "❌ Login failed or backend down!"
+            echo "❌ Test failed or backend down!"
             exit 1
           fi
-          echo "✅ Login succeeded. Backend is healthy."
+          echo "✅ Api Test succeeded. Backend is healthy."
+
+      - name: ✅ Validate Core Features via Claims
+        run: |
+          echo "Authenticating to check feature access..."
+
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.BACKEND_TESTING_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"email\": \"${{ secrets.TESTING_KEY }}\", \"password\": \"${{ secrets.TESTING_PASS }}\"}")
+
+          echo "$RESPONSE" > response.json
+
+          # Define expected features (friendly descriptions optional)
+          EXPECTED_CLAIMS=(
+            "ALL_DOCUMENTS_CREATE_DOCUMENT"
+            "REMINDER_VIEW_REMINDERS"
+            "USER_ASSIGN_USER_ROLE"
+            "ROLE_VIEW_ROLES"
+          )
+
+          i=1
+          for CLAIM in "${EXPECTED_CLAIMS[@]}"; do
+            if grep -q "\"$CLAIM\"" response.json; then
+              echo "✅ Feature #$i is working"
+            else
+              echo "❌ Feature #$i is missing"
+            fi
+            ((i++))
+          done
+
 
