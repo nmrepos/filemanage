@@ -33,16 +33,23 @@ jobs:
         run: |
           echo "Authenticating to check feature access..."
 
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.BACKEND_TESTING_URL }}" \
+          RESPONSE=$(curl -s -X POST "${{ secrets.BACKEND_TESTING_URL }}" \
             -H "Content-Type: application/json" \
             -d "{\"email\": \"${{ secrets.TESTING_KEY }}\", \"password\": \"${{ secrets.TESTING_PASS }}\"}")
 
-          echo "$RESPONSE" | jq '.' > response.json
+          echo "$RESPONSE" > response.json
 
-          STATUS=$(jq -r '.status' response.json)
+          if ! echo "$RESPONSE" | grep -q '{'; then
+            echo "❌ Response is not valid JSON:"
+            cat response.json
+            exit 1
+          fi
+
+          STATUS=$(jq -r '.status // empty' response.json)
 
           if [[ "$STATUS" != "success" ]]; then
             echo "❌ Login failed!"
+            cat response.json
             exit 1
           fi
 
@@ -52,8 +59,7 @@ jobs:
 
           i=1
           for CLAIM in $CLAIMS; do
-            echo "✅ Feature #$i is working"
+            echo "✅ Feature : $CLAIM is working"
             ((i++))
           done
-
 
