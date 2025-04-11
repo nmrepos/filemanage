@@ -46,4 +46,5 @@ class Actions extends Model
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
     }
+    
 }
