@@ -59,7 +59,7 @@ jobs:
 
           i=1
           for CLAIM in $CLAIMS; do
-            echo "✅ Feature #$i is working"
+            echo "✅ Feature : $CLAIM is working"
             ((i++))
           done
 
