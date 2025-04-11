@@ -2,6 +2,9 @@ name: E2E Test & Health Check (Local CI)
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - testing
 
 jobs:
   test_and_health:
