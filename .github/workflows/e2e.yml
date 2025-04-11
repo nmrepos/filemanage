@@ -30,11 +30,7 @@ jobs:
           browser: electron
           headed: false
           record: false
-<<<<<<< HEAD
           spec: cypress/e2e/spec.cy.ts
-=======
-          spec: cypress/e2e/prod-smoke.cy.ts
->>>>>>> c194017e531bb9150e942ca832054f44c157fe21
           wait-on-timeout: 60
 
       - name: Upload Cypress videos
