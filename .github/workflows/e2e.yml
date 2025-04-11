@@ -30,7 +30,7 @@ jobs:
           browser: electron
           headed: false
           record: false
-          spec: cypress/e2e/spec.cy.ts
+          spec: cypress/e2e/*.cy.ts
           wait-on-timeout: 60
 
       - name: Upload Cypress videos
