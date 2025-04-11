@@ -1,0 +1,100 @@
+name: E2E Test & Health Check (Local CI)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_and_health:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: test_db
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent" 
+          --health-interval=10s 
+          --health-timeout=5s 
+          --health-retries=3
+
+    steps:
+      - name: 📦 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js for Angular
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: ⚙️ Setup PHP for Laravel
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, pdo_mysql, tokenizer, xml, ctype, json, bcmath
+
+      - name: 🌐 Setup MySQL CLI
+        run: sudo apt-get install -y mysql-client
+
+      - name: 🧱 Setup Laravel Backend
+        working-directory: ./backend
+        run: |
+          cp .env.example .env || true
+          composer install
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan migrate --force
+
+      - name: 🚀 Serve Laravel API (background)
+        working-directory: ./backend
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8000 &
+          sleep 10
+
+      - name: 🧱 Setup Angular Frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: 🚀 Serve Angular Frontend (background)
+        working-directory: ./frontend/dist
+        run: |
+          npx http-server -p 4200 &
+          sleep 5
+
+      - name: ✅ Run Health Check via Login
+        run: |
+          echo "Checking login endpoint..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST http://127.0.0.1:8000/api/auth/login \
+            -H "Content-Type: application/json" \
+            -d '{"email": "${{ secrets.TESTING_KEY }}", "password": "${{ secrets.TESTING_PASS }}"}')
+
+          echo "Status Code: $RESPONSE"
+          if [[ "$RESPONSE" != "200" ]]; then
+            echo "❌ Login failed or backend down!"
+            exit 1
+          fi
+          echo "✅ Login succeeded. Backend is healthy."
+
+      - name: 🌍 Check Angular Frontend Availability
+        run: |
+          echo "Checking frontend..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4200)
+          echo "Status Code: $RESPONSE"
+          if [[ "$RESPONSE" != "200" ]]; then
+            echo "❌ Frontend is not responding!"
+            exit 1
+          fi
+          echo "✅ Frontend is running locally."
+
+      - name: 🔁 Simple Performance Timing
+        run: |
+          TIME=$(curl -o /dev/null -s -w 'Total Time: %{time_total}s\n' \
+            -X POST http://127.0.0.1:8000/api/auth/login \
+            -H "Content-Type: application/json" \
+            -d '{"email": "${{ secrets.TESTING_KEY }}", "password": "${{ secrets.TESTING_PASS }}"}')
+          echo $TIME
