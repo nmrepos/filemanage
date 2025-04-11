@@ -39,6 +39,22 @@ use App\Http\Controllers\UserNotificationController;
 |
 */
 
+Route::get('/health', function (Request $request) {
+    $token = $request->header('X-HEALTH-CHECK-TOKEN');
+
+    if (!$token || !Hash::check($token, config('health.token_hash'))) {
+        return response()->json(['status' => 'Unauthorized'], 401);
+    }
+
+    try {
+        DB::connection()->getPdo();
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'DB connection failed'], 500);
+    }
+
+    return response()->json(['status' => 'OK'], 200);
+});
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('auth/login', 'login');
     Route::post('auth/logout', 'logout');

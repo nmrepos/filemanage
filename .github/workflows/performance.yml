@@ -1,0 +1,61 @@
+name: Health & Performance Check
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
+  workflow_dispatch:       # Allow manual run from GitHub
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+
+    env:
+      BACKEND_HEALTH_URL: https://yourdomain.com/api/health
+      FRONTEND_URL: https://yourdomain.com
+      HEALTH_TOKEN: ${{ secrets.HEALTH_TOKEN }}
+
+    steps:
+      - name: 🔄 Check Backend Health
+        run: |
+          echo "Checking Backend Health..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "X-HEALTH-CHECK-TOKEN: $HEALTH_TOKEN" \
+            $BACKEND_HEALTH_URL)
+          echo "Status Code: $RESPONSE"
+          if [[ "$RESPONSE" != "200" ]]; then
+            echo "❌ Backend is unhealthy!"
+            exit 1
+          fi
+          echo "✅ Backend is healthy."
+
+      - name: 🌐 Check Frontend Availability
+        run: |
+          echo "Checking Frontend..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $FRONTEND_URL)
+          echo "Status Code: $RESPONSE"
+          if [[ "$RESPONSE" != "200" ]]; then
+            echo "❌ Frontend is down!"
+            exit 1
+          fi
+          echo "✅ Frontend is up."
+
+      - name: 🧪 Test DB Connectivity via Laravel Route
+        run: |
+          echo "Checking DB via Laravel..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "X-HEALTH-CHECK-TOKEN: $HEALTH_TOKEN" \
+            https://yourdomain.com/api/health/db)
+          echo "Status Code: $RESPONSE"
+          if [[ "$RESPONSE" != "200" ]]; then
+            echo "❌ DB Connectivity failed!"
+            exit 1
+          fi
+          echo "✅ DB is connected."
+
+      - name: ⚡ Simple Backend Performance Test
+        run: |
+          echo "Testing Backend Response Time..."
+          TIME=$(curl -o /dev/null -s -w 'Total Time: %{time_total}s\n' \
+            -H "X-HEALTH-CHECK-TOKEN: $HEALTH_TOKEN" \
+            $BACKEND_HEALTH_URL)
+          echo $TIME
