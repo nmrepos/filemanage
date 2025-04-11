@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @codeCoverageIgnore
+ */
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;

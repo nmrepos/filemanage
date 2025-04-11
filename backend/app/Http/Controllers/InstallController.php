@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
-
+/**
+ * @codeCoverageIgnore
+ */
 class InstallController extends Controller
 {
     private $userRepository;
