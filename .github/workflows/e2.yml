@@ -1,4 +1,4 @@
-name: CI/CD: Laravel + Angular (Full Local Test)
+name: CI/CD- Laravel + Angular (Full Local Test)
 
 on:
   push:
