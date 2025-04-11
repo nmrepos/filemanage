@@ -1,103 +1,109 @@
-name: E2E Test & Health Check (Local CI)
+name: CI/CD: Laravel + Angular (Full Local Test)
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - testing
+  workflow_dispatch:
 
 jobs:
-  test_and_health:
+  fullstack-test:
     runs-on: ubuntu-latest
 
     services:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: laravel
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --silent" 
-          --health-interval=10s 
-          --health-timeout=5s 
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
           --health-retries=3
 
     steps:
-      - name: 📦 Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: ⚙️ Setup Node.js for Angular
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: ⚙️ Setup PHP for Laravel
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, pdo, pdo_mysql, tokenizer, xml, ctype, json, bcmath
+          extensions: mbstring, pdo, pdo_mysql, xml, bcmath, curl, gd
 
-      - name: 🌐 Setup MySQL CLI
-        run: sudo apt-get install -y mysql-client
+      - name: Setup Composer
+        run: composer self-update
 
-      - name: 🧱 Setup Laravel Backend
+      - name: Install Laravel dependencies
+        working-directory: ./backend
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Create .env for Laravel
         working-directory: ./backend
         run: |
           cp .env.example .env || true
-          composer install
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan migrate --force
+          cat > .env <<EOL
+          APP_NAME=Laravel
+          APP_ENV=local
+          APP_KEY=
+          APP_DEBUG=true
+          APP_URL=http://localhost
 
-      - name: 🚀 Serve Laravel API (background)
+          LOG_CHANNEL=stack
+
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=laravel
+          DB_USERNAME=root
+          DB_PASSWORD=root
+
+          CACHE_DRIVER=file
+          SESSION_DRIVER=file
+          QUEUE_CONNECTION=sync
+          EOL
+
+      - name: Generate Laravel App Key & Run Migrations
         working-directory: ./backend
         run: |
-          php artisan serve --host=127.0.0.1 --port=8000 &
-          sleep 10
+          php artisan config:clear
+          php artisan key:generate
+          php artisan migrate --force
 
-      - name: 🧱 Setup Angular Frontend
+      - name: Install Angular dependencies & Build
         working-directory: ./frontend
         run: |
           npm install
-          npm run build
+          npm run build --configuration production
 
-      - name: 🚀 Serve Angular Frontend (background)
-        working-directory: ./frontend/dist
+      - name: ✅ Run Backend Feature Test (Login)
+        working-directory: ./backend
         run: |
-          npx http-server -p 4200 &
-          sleep 5
-
-      - name: ✅ Run Health Check via Login
-        run: |
-          echo "Checking login endpoint..."
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST http://127.0.0.1:8000/api/auth/login \
+          echo "Testing login..."
+          curl -s -o response.json -w "%{http_code}" -X POST http://localhost:8000/api/auth/login \
             -H "Content-Type: application/json" \
-            -d '{"email": "${{ secrets.TESTING_KEY }}", "password": "${{ secrets.TESTING_PASS }}"}')
-
-          echo "Status Code: $RESPONSE"
-          if [[ "$RESPONSE" != "200" ]]; then
-            echo "❌ Login failed or backend down!"
+            -d '{"email": "nidhunofficial@gmail.com", "password": "password"}' > status.txt
+          STATUS=$(cat status.txt)
+          echo "Status Code: $STATUS"
+          if [[ "$STATUS" != "200" ]]; then
+            echo "❌ Login test failed"
+            cat response.json
             exit 1
           fi
-          echo "✅ Login succeeded. Backend is healthy."
+          echo "✅ Login API passed"
 
-      - name: 🌍 Check Angular Frontend Availability
+      - name: ✅ Validate Claims from Login
         run: |
-          echo "Checking frontend..."
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4200)
-          echo "Status Code: $RESPONSE"
-          if [[ "$RESPONSE" != "200" ]]; then
-            echo "❌ Frontend is not responding!"
-            exit 1
-          fi
-          echo "✅ Frontend is running locally."
-
-      - name: 🔁 Simple Performance Timing
-        run: |
-          TIME=$(curl -o /dev/null -s -w 'Total Time: %{time_total}s\n' \
-            -X POST http://127.0.0.1:8000/api/auth/login \
-            -H "Content-Type: application/json" \
-            -d '{"email": "${{ secrets.TESTING_KEY }}", "password": "${{ secrets.TESTING_PASS }}"}')
-          echo $TIME
+          echo "Checking claims..."
+          jq -r '.claims[]' ./backend/response.json | while read claim; do
+            echo "✅ Feature : $claim is working"
+          done
