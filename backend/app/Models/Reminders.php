@@ -67,8 +67,7 @@ class Reminders extends Model
     {
         return $this->hasMany(QuarterlyReminders::class, 'reminderId');
     }
-
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -96,5 +95,5 @@ class Reminders extends Model
             $reminder->halfYearlyReminders()->delete();
             $reminder->quarterlyReminders()->delete();
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

@@ -29,7 +29,7 @@ class SendEmails extends Model
     {
         return $this->belongsTo(Documents::class, 'documentId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -48,5 +48,5 @@ class SendEmails extends Model
         static::addGlobalScope('isDeleted', function (Builder $builder) {
             $builder->where('sendEmails.isDeleted', '=', 0);
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

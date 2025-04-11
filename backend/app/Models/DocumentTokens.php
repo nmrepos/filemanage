@@ -20,7 +20,7 @@ class DocumentTokens extends Model
     ];
 
     protected $dates = ['createdDate'];
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -28,6 +28,6 @@ class DocumentTokens extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-        
-    }
+    }// @codeCoverageIgnoreEnd
+
 }

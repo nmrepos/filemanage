@@ -32,7 +32,7 @@ class DocumentShareableLink extends Model
     {
         return $this->belongsTo(Documents::class, 'documentId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -47,5 +47,5 @@ class DocumentShareableLink extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy = $userId;
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

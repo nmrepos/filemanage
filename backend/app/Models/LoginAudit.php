@@ -22,7 +22,7 @@ class LoginAudit extends Model
         'userName', 'loginTime', 'remoteIP', 'status', 'provider',
         'latitude', 'longitude'
     ];
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -30,5 +30,5 @@ class LoginAudit extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

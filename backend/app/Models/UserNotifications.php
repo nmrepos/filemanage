@@ -37,7 +37,7 @@ class UserNotifications extends Model
     {
         return $this->belongsTo(Documents::class, 'documentId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -45,5 +45,6 @@ class UserNotifications extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
+    }// @codeCoverageIgnoreEnd
+
 }

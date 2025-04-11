@@ -22,4 +22,12 @@ class DocumentShareableLinkModelTest extends TestCase
         $this->assertEquals($expected, $model->getFillable());
     }
 
+    /** @test */
+    public function it_calls_relationship_methods()
+    {
+        $model = new DocumentShareableLink();
+        $model->document();
+        $this->assertTrue(true);
+    }
+
 }

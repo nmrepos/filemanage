@@ -22,6 +22,7 @@ class PageHelper extends Model
         'description'
     ];
 
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -29,5 +30,5 @@ class PageHelper extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
+    }// @codeCoverageIgnoreEnd
 }

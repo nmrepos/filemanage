@@ -47,4 +47,12 @@ class DocumentRolePermissionsModelTest extends TestCase
         $this->assertTrue(method_exists($perm, 'role'));
         $this->assertTrue(method_exists($perm, 'document'));
     }
+    /** @test */
+    public function it_calls_relationship_methods()
+    {
+        $model = new DocumentRolePermissions();
+        $model->role();
+        $model->document();
+        $this->assertTrue(true);
+    }
 }

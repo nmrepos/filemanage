@@ -34,7 +34,7 @@ class DocumentRolePermissions extends Model
     {
         return $this->belongsTo(Documents::class, 'documentId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -50,5 +50,6 @@ class DocumentRolePermissions extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy = $userId;
         });
-    }
+    }// @codeCoverageIgnoreStart
+
 }

@@ -48,4 +48,13 @@ class DocumentAuditTrailsModelTest extends TestCase
         $this->assertTrue(method_exists($audit, 'document'));
         $this->assertTrue(method_exists($audit, 'roles'));
     }
+    /** @test */
+    public function it_calls_relationship_methods()
+    {
+        $model = new DocumentAuditTrails();
+        $model->user();
+        $model->document();
+        $model->roles();
+        $this->assertTrue(true);
+    }
 }

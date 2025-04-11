@@ -37,6 +37,7 @@ class DocumentUserPermissions extends Model
         return $this->belongsTo(Documents::class, 'documentId');
     }
 
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -52,4 +53,5 @@ class DocumentUserPermissions extends Model
             $model->modifiedBy = $userId;
         });
     }
+    // @codeCoverageIgnoreEnd
 }

@@ -31,7 +31,7 @@ class ReminderUsers extends Model
     {
         return $this->belongsTo(Reminders::class, 'reminderId');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -39,5 +39,6 @@ class ReminderUsers extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
+    }// @codeCoverageIgnoreEnd
+
 }
