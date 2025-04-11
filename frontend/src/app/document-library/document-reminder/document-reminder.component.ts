@@ -387,7 +387,6 @@ export class DocumentReminderComponent extends BaseComponent implements OnInit {
     return new Date().getDate();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDateChange(formGrouup: any) {
     const day = formGrouup.get('day').value;
     const month = formGrouup.get('month').value;

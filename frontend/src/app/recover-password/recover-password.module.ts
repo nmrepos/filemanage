@@ -7,8 +7,6 @@ import { RecoverPasswordRoutingModule } from './recover-password-routing.module'
 import { RecoverPasswordComponent } from './recover-password.component';
 import { MatButtonModule } from '@angular/material/button';
 
-
-
 @NgModule({
   declarations: [
     RecoverPasswordComponent

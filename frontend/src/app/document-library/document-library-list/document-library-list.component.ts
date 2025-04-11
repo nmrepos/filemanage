@@ -305,7 +305,6 @@ export class DocumentLibraryListComponent
     };
     this.sub$.sink = this.commonService
       .addDocumentAuditTrail(objDocumentAuditTrail)
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .subscribe(() => {});
   }
 

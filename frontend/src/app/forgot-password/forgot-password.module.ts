@@ -7,8 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 
-
-
 @NgModule({
   declarations: [
     ForgotPasswordComponent

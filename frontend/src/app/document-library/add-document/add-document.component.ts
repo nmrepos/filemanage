@@ -42,7 +42,6 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
   message = '';
   fileInfo: FileInfo;
   isFileUpload = false;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fileData: any;
   users: User[];
   roles: Role[];
@@ -183,8 +182,7 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
   get userPermissionFormGroup() {
     return this.documentForm.get('userPermissionForm') as FormGroup;
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  
   onMetatagChange(event: any, index: number) {
     const email = this.documentMetaTagsArray.at(index).get('metatag').value;
     if (!email) {

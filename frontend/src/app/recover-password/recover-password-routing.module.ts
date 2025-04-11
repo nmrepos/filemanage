@@ -3,8 +3,6 @@ import { RecoverPasswordComponent } from './recover-password.component';
 import { RouterModule, Routes } from '@angular/router';
 import { RecoverPasswordResolverService } from './recover-password-resolver';
 
-
-
 const routes: Routes = [
   {
     path: ':id',
