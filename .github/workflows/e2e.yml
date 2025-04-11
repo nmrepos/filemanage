@@ -1,4 +1,4 @@
-name: Cypress Smoke Test - Production
+name: E2E Smoke Test
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -20,10 +20,29 @@ jobs:
         run: |
           cd frontend/e2e
           npm ci
+          npm install -D typescript ts-node @cypress/webpack-preprocessor @cypress/webpack-dev-server webpack
 
-      - name: Run Cypress tests against PROD
+      - name: Run Cypress Tests on Production
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend/e2e
-          spec: cypress/e2e/prod-smoke.cy.ts
-          config: baseUrl=https://yourfrontend.com
+          config-file: cypress.config.ts
+          browser: electron
+          headed: false
+          record: false
+          spec: cypress/e2e/spec.cy.ts
+          wait-on-timeout: 60
+
+      - name: Upload Cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: frontend/e2e/cypress/videos
+
+      - name: Upload Cypress screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: frontend/e2e/cypress/screenshots
