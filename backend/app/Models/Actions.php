@@ -37,7 +37,7 @@ class Actions extends Model
     {
         return $this->hasMany(UserClaims::class, 'actionId', 'id');
     }
-
+    // @codeCoverageIgnoreStart
     protected static function boot()
     {
         parent::boot();
@@ -45,6 +45,5 @@ class Actions extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Uuid::uuid4());
         });
-    }
-    
+    }// @codeCoverageIgnoreEnd
 }

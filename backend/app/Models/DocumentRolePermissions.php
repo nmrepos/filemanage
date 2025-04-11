@@ -50,6 +50,6 @@ class DocumentRolePermissions extends Model
             $userId = Auth::parseToken()->getPayload()->get('userId');
             $model->modifiedBy = $userId;
         });
-    }// @codeCoverageIgnoreStart
+    }// @codeCoverageIgnoreEnd
 
 }

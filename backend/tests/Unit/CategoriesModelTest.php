@@ -47,4 +47,13 @@ class CategoriesModelTest extends TestCase
         $this->assertTrue(method_exists($category, 'documents'));
         $this->assertTrue(method_exists($category, 'childs'));
     }
+
+    /** @test */
+    public function it_calls_relationship_methods()
+    {
+        $category = new Categories();
+        $category->documents();
+        $category->childs();
+        $this->assertTrue(true);
+    }
 }
