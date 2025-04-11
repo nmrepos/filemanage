@@ -25,5 +25,5 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           working-directory: frontend/e2e
-          spec: cypress/e2e/prod-smoke.cy.ts
+          spec: cypress/e2e/spec.cy.ts
           config: baseUrl=https://yourfrontend.com
