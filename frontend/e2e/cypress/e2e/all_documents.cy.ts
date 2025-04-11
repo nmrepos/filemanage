@@ -1,4 +1,3 @@
-
 import 'cypress-xpath'
 
 describe('All Documents Page UI Test', () => {
