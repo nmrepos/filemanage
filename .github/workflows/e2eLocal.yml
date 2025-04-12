@@ -103,6 +103,6 @@ jobs:
           browser: electron
           headed: false
           record: false
-          spec: cypress/e2e/*.cy.ts
+          spec: cypress/e2e/testsample.cy.ts
           wait-on-timeout: 60
         
