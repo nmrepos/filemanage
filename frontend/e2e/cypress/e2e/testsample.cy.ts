@@ -15,8 +15,6 @@ describe('Roles Page E2E Test', () => {
       
 })
 
-
-
 describe('Health Check', () => {
     it('should load the frontend', () => {
       cy.visit('/login');
@@ -24,7 +22,6 @@ describe('Health Check', () => {
     });
   
     it('should communicate with the backend', () => {
-      // Replace with an actual API endpoint and expected behavior
       cy.request('GET', 'http://127.0.0.1:8000/api/login')
         .its('status')
         .should('eq', 200);

@@ -85,7 +85,7 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run build -- --configuration production
+          npm run build --
           npx ng serve --port 4200 --host 127.0.0.1 &
           sleep 10
 
