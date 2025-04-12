@@ -12,7 +12,7 @@ export default defineConfig({
         }
       })
     },
-    baseUrl: 'http://filemanage-frontend.s3-website-us-east-1.amazonaws.com',
+    baseUrl: 'http://127.0.0.1:4200',
     specPattern: 'cypress/e2e/*.cy.ts',
     supportFile: 'cypress/support/e2e.ts',
   },

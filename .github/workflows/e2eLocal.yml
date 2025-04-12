@@ -78,12 +78,16 @@ jobs:
           php artisan config:clear
           php artisan key:generate
           php artisan migrate:fresh --seed --force
+          php artisan serve --host=127.0.0.1 --port=8000 &
+          sleep 10
 
       - name: Install Angular dependencies & Build
         working-directory: ./frontend
         run: |
           npm install
           npm run build -- --configuration production
+          npx ng serve --port 4200 --host 127.0.0.1 &
+          sleep 10
 
       - name: Install dependencies
         run: |
