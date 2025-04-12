@@ -6,7 +6,9 @@ describe('Roles Page E2E Test', () => {
       cy.url().should('include', '/login');
     });
 
-    cy.url().then((currentUrl) => {
-        cy.task('logToTerminal', currentUrl);
+    it('Should show Roles title in header', () => {
+        cy.url().then((currentUrl) => {
+            cy.task('logToTerminal', currentUrl);
+          });
       });
 })
