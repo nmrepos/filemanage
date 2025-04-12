@@ -1,0 +1,109 @@
+name: CI/CD- Laravel + Angular (Full Local Test)
+
+on:
+  push:
+    branches:
+      - testing
+  workflow_dispatch:
+
+jobs:
+  fullstack-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: laravel
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, pdo_mysql, xml, bcmath, curl, gd
+
+      - name: Setup Composer
+        run: composer self-update
+
+      - name: Install Laravel dependencies
+        working-directory: ./backend
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Create .env for Laravel
+        working-directory: ./backend
+        run: |
+          cp .env.example .env || true
+          cat > .env <<EOL
+          APP_NAME=Laravel
+          APP_ENV=local
+          APP_KEY=
+          APP_DEBUG=true
+          APP_URL=http://localhost
+
+          LOG_CHANNEL=stack
+
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=laravel
+          DB_USERNAME=root
+          DB_PASSWORD=root
+
+          CACHE_DRIVER=file
+          SESSION_DRIVER=file
+          QUEUE_CONNECTION=sync
+          EOL
+
+      - name: Generate Laravel App Key & Run Migrations
+        working-directory: ./backend
+        run: |
+          php artisan config:clear
+          php artisan key:generate
+          php artisan migrate:fresh --seed --force
+
+      - name: Install Angular dependencies & Build
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build --configuration production
+
+      - name: ✅ Run Backend Feature Test (Login)
+        working-directory: ./backend
+        run: |
+          echo "Testing login..."
+          curl -s -o response.json -w "%{http_code}" -X POST http://localhost:8000/api/auth/login \
+            -H "Content-Type: application/json" \
+            -d '{"email": "nidhunofficial@gmail.com", "password": "password"}' > status.txt
+          STATUS=$(cat status.txt)
+          echo "Status Code: $STATUS"
+          if [[ "$STATUS" != "200" ]]; then
+            echo "❌ Login test failed"
+            cat response.json
+            exit 1
+          fi
+          echo "✅ Login API passed"
+
+      - name: ✅ Validate Claims from Login
+        run: |
+          echo "Checking claims..."
+          jq -r '.claims[]' ./backend/response.json | while read claim; do
+            echo "✅ Feature : $claim is working"
+          done
