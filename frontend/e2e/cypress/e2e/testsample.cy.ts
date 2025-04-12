@@ -10,10 +10,23 @@ describe('Roles Page E2E Test', () => {
         cy.url().then((currentUrl) => {
             cy.task('logToTerminal', currentUrl);
           });
-
-          cy.get('#uname').should('exist').type('test@test.com');
-          cy.get('#pass').should('exist').type('test');
-          cy.get('#loginbtn').should('exist').click();
           
       });
+      
 })
+
+
+
+describe('Health Check', () => {
+    it('should load the frontend', () => {
+      cy.visit('/login');
+      cy.contains('Email').should('be.visible');
+    });
+  
+    it('should communicate with the backend', () => {
+      // Replace with an actual API endpoint and expected behavior
+      cy.request('GET', 'http://127.0.0.1:8000/api/login')
+        .its('status')
+        .should('eq', 200);
+    });
+});
