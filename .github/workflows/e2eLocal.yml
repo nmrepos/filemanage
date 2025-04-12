@@ -83,7 +83,7 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run build --configuration production
+          npm run build -- --configuration production
 
       - name: ✅ Run Backend Feature Test (Login)
         working-directory: ./backend
@@ -91,7 +91,7 @@ jobs:
           echo "Testing login..."
           curl -s -o response.json -w "%{http_code}" -X POST http://localhost:8000/api/auth/login \
             -H "Content-Type: application/json" \
-            -d '{"email": "nidhunofficial@gmail.com", "password": "password"}' > status.txt
+            -d '{"email": "test@test.com", "password": "test"}' > status.txt
           STATUS=$(cat status.txt)
           echo "Status Code: $STATUS"
           if [[ "$STATUS" != "200" ]]; then
@@ -101,7 +101,6 @@ jobs:
           fi
           echo "✅ Login API passed"
 
-      - name: ✅ Validate Claims from Login
         run: |
           echo "Checking claims..."
           jq -r '.claims[]' ./backend/response.json | while read claim; do
