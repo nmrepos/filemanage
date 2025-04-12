@@ -85,18 +85,20 @@ jobs:
           npm install
           npm run build -- --configuration production
 
-      - name: ✅ Run Backend Feature Test (Login)
-        working-directory: ./backend
+      - name: Install dependencies
         run: |
-          echo "Testing login..."
-          curl -s -o response.json -w "%{http_code}" -X POST http://localhost:8000/api/auth/login \
-            -H "Content-Type: application/json" \
-            -d '{"email": "test@test.com", "password": "test"}' > status.txt
-          STATUS=$(cat status.txt)
-          echo "Status Code: $STATUS"
-          if [[ "$STATUS" != "200" ]]; then
-            echo "❌ Login test failed"
-            cat response.json
-            exit 1
-          fi
-          echo "✅ Login API passed"
+          cd frontend/e2e
+          npm ci
+          npm install -D typescript ts-node @cypress/webpack-preprocessor @cypress/webpack-dev-server webpack
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: frontend/e2e
+          config-file: cypress.config.ts
+          browser: electron
+          headed: false
+          record: false
+          spec: cypress/e2e/*.cy.ts
+          wait-on-timeout: 60
+        
