@@ -18,7 +18,7 @@ describe('Roles Page E2E Test', () => {
 describe('Health Check', () => {
     it('should load the frontend', () => {
       cy.visit('/login');
-      cy.contains('Email').should('be.visible');
+      cy.contains('app-login').should('be.visible');
     });
   
     it('should communicate with the backend', () => {
