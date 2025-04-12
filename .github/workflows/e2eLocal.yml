@@ -100,9 +100,3 @@ jobs:
             exit 1
           fi
           echo "✅ Login API passed"
-
-        run: |
-          echo "Checking claims..."
-          jq -r '.claims[]' ./backend/response.json | while read claim; do
-            echo "✅ Feature : $claim is working"
-          done
