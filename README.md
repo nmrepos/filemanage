@@ -126,7 +126,7 @@ Filemanage is designed to help users and administrators efficiently manage a hig
 
 - **Multilingual Support**:
   - Supports multiple languages (English, Spanish, Arabic, Russian, Japanese, Korean, Chinese).
-  - Users can select their preferred language via the settings menu.
+  - Users can select their preferred language via the settings menu..
 
 - **Access Management & Reporting**:
   - Manage user roles and permissions through a dedicated interface.
