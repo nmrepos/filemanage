@@ -88,6 +88,6 @@ jobs:
 
       - name: Run Laravel Tests
         working-directory: ./backend
-        run: php artisan test
+        run: php artisan test --coverage
         env:
             DB_PORT: ${{ job.services.mysql.ports['3306'] }}
