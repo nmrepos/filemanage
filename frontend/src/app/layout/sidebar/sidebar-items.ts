@@ -29,15 +29,6 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
-    path: 'documents/deep-search',
-    title: 'DEEP_SEARCH',
-    icon: 'zoom-in',
-    class: '',
-    groupTitle: false,
-    claims: ['DEEP_SEARCH_DEEP_SEARCH'],
-    submenu: [],
-  },
-  {
     path: 'categories',
     title: 'DOCUMENT_CATEGORIES',
     icon: 'file',
