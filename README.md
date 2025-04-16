@@ -87,18 +87,6 @@ Filemanage is designed to help users and administrators efficiently manage a hig
   - Passwords are securely stored (salted and hashed).
   - Clear error messaging for invalid login attempts and an easy logout option.
 
-### Password Reset & Two-Factor Authentication
-
-- **Password Reset**:
-  - "Forgot Password" functionality on the login page.
-  - Email with a secure, time-limited reset token is sent to users.
-  - Allows users to set a new password securely, invalidating the token after use.
-
-- **Two-Factor Authentication (2FA)**:
-  - Users can enable/disable 2FA in account settings.
-  - Supports 2FA via SMS or authenticator apps.
-  - When enabled, login requires an additional verification code.
-
 ### Core Document Management
 
 - **Manage Documents**:
