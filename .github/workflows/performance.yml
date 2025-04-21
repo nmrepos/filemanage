@@ -1,8 +1,6 @@
 name: Health & Performance Check
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'  # Runs every 30 minutes
   workflow_dispatch:       # Allow manual run from GitHub
 
 jobs:
